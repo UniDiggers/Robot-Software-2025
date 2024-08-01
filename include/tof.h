@@ -7,17 +7,18 @@
 // ToF Decalaration
 VL53L0X sensor;
 
-// 3 Working Styles - Choose only one !
+// 5 Working Styles - Choose only one with "true" others "false".
 #define LONG_RANGE_MODE false
-#define LONG_RANGE_ACCURACY false
-#define LONG_RANGE_SPEED false
-#define HIGH_SPEED false
-#define HIGH_ACCURACY true
+#define LONG_RANGE_ACCURACY true
+#define LONG_RANGE_SPEED false 
+#define HIGH_SPEED false 
+#define HIGH_ACCURACY true 
 
 
 /*
 - higher speed at the cost of lower accuracy OR
 - higher accuracy at the cost of lower speed
+- higher range at the cost of accuracy and speed
 */
 
 

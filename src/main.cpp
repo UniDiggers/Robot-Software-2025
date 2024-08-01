@@ -4,13 +4,14 @@
 #include "tof.h"
 #include "test_i2c.h"
 #include "screen.h"
+#include "team.h"
 
 #define DEBUG true
 
 void setup() {
 
   Serial.begin(115200);
-  Serial.println("Start Program :");
+  Serial.println("\n\n\nStart Program :");
   Wire.begin(1,2);
   
   // Initialisation wich check all the components
@@ -36,6 +37,9 @@ void setup() {
     Serial.println("Screen working");
   }
 
+  //Choose Team
+  team_setup();
+
   //Print Home Page
   home_screen();
   delay(2000);
@@ -45,7 +49,6 @@ void setup() {
 void loop() {
   //Print distance on screen
   tof_screen();
-  //Serial.println(get_distance());
 }
 
 

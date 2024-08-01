@@ -39,10 +39,9 @@ void home_screen(){
 void tof_screen(){
     //Print distance on screen
     int distance = get_distance();
-    Serial.println(distance);
     char str_distance[10];
     sprintf(str_distance, "%d", distance);
-    if(distance == -1 || distance > 500){ 
+    if(distance == -1 || distance > 2000){ 
         strcpy(str_distance, "OUT");
     }
     display.clearDisplay();
