@@ -8,11 +8,11 @@
 VL53L0X sensor;
 
 // 3 Working Styles - Choose only one !
-#define LONG_RANGE_MODE true
+#define LONG_RANGE_MODE false
 #define LONG_RANGE_ACCURACY false
 #define LONG_RANGE_SPEED false
 #define HIGH_SPEED false
-#define HIGH_ACCURACY false
+#define HIGH_ACCURACY true
 
 
 /*

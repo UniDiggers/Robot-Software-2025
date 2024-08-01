@@ -44,8 +44,8 @@ void setup() {
 
 void loop() {
   //Print distance on screen
-  //tof_screen();
-  Serial.println(get_distance());
+  tof_screen();
+  //Serial.println(get_distance());
 }
 
 
