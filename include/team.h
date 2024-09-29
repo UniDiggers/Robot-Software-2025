@@ -2,7 +2,8 @@
 #define TEAM_H
 
 #include <Arduino.h>
-#define BTN 0
+#define BTN 7
+#define LAUNCH 6
 
 bool team_setup(){
     pinMode(BTN, INPUT_PULLUP);
@@ -12,6 +13,18 @@ bool team_setup(){
     }
     else{
         Serial.println("YELLOW TEAM");
+        return false;
+    }
+}
+
+bool launchpull_setup(){
+    pinMode(LAUNCH, INPUT_PULLUP);
+    if(digitalRead(LAUNCH) == LOW){
+        Serial.println("LAUNCH Started");
+        return true;
+    }
+    else{
+        Serial.println("LAUNCH Waiting");
         return false;
     }
 }
