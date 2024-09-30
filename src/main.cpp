@@ -5,39 +5,41 @@
 #include "test_i2c.h"
 #include "screen.h"
 #include "team.h"
-#include "pathfinding.h"
 
-#define DEBUG true
+#define DEBUG 1
 
 #define SDA 1
 #define SCL 2
 
-void setup() {
+void setup(){
 
   Serial.begin(115200);
-  Serial.println("\n\n\nStart Program :");
+  delay(500);
+  Serial.println("\nStart Program :");
   Wire.begin(SDA,SCL);
+  delay(500);
   
   // Initialisation wich check all the components
   if(!i2c_setup()){
     Serial.println("I2C not working");
-    EXIT_FAILURE;
+    //EXIT_FAILURE;
   }
-  if(DEBUG){
+  else{
     Serial.println("I2C working");
   }
   if(!tof_setup()){
     Serial.println("ToF not working");
-    EXIT_FAILURE;
+    //EXIT_FAILURE;
   }
-  if(DEBUG){
+  else{
     Serial.println("ToF working");
   }
+
   if(!screen_setup()){
     Serial.println("Screen not working");
-    EXIT_FAILURE;
+    //EXIT_FAILURE;
   }
-  if(DEBUG){
+  else{
     Serial.println("Screen working\n");
   }
 
@@ -47,16 +49,13 @@ void setup() {
   //Print Home Page
   home_screen();
   delay(2000);
-  
-  //Pathfinding
-  //matrix_setup();
-  //matrice_print(matrix);
+
 
 }
 
 void loop() {
   //Print distance on screen
-  //tof_screen();
+  //tof_screen()
 }
 
 

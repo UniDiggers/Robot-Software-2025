@@ -25,7 +25,7 @@ VL53L0X sensor;
 bool tof_setup(){
     sensor.setTimeout(500);
     if (!sensor.init()){
-        Serial.println("Failed to connect ToF sensor.");
+        //Serial.println("Failed to connect ToF sensor.");
         return false;
     }
 
