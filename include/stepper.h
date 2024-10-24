@@ -10,7 +10,12 @@
 #define STEP2 12
 #define DIR2 16
 #define STEP3 11
-#define DIR3 15moveTo
+#define DIR3 15
+
+// Création des objets AccelStepper
+AccelStepper stepper1(1, STEP1, DIR1);
+AccelStepper stepper2(1, STEP2, DIR2);
+AccelStepper stepper3(1, STEP3, DIR3);
 
 void nema_setup(AccelStepper &stepper, int SPEED, int MAX_SPEED, int ACCELERATION){
   // Initialisation du moteur
@@ -22,9 +27,14 @@ void nema_setup(AccelStepper &stepper, int SPEED, int MAX_SPEED, int ACCELERATIO
 void nema_position(AccelStepper &stepper, int POSITION){
   // Déplacement du moteur vers l'avant
   stepper.moveTo(POSITION);
-  stepper.runToPosition(); // Attente de la fin du mouvement
 }
 
-
+void nema_start(AccelStepper &stepper, AccelStepper &stepper1){
+  // Lancement des moteurs 
+  while(stepper.distanceToGo() != 0 || stepper1.distanceToGo() != 0){
+    stepper.run();
+    stepper1.run();
+  }
+}
 
 #endif
