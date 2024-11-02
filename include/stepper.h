@@ -26,7 +26,8 @@ void nema_setup(AccelStepper &stepper, int SPEED, int MAX_SPEED, int ACCELERATIO
 
 void nema_position(AccelStepper &stepper, int POSITION){
   // Déplacement du moteur vers l'avant
-  stepper.moveTo(POSITION);
+  //stepper.moveTo(POSITION);
+  stepper.move(POSITION);
 }
 
 void nema_start(AccelStepper &stepper, AccelStepper &stepper1){
