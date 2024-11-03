@@ -6,7 +6,8 @@
 #include "screen.h"
 #include "team.h"
 #include "stepper.h"
-#include "dabble.h"
+//#include "dabble.h"
+#include "BLE.h"
 
 #define DEBUG 1
 
@@ -51,7 +52,10 @@ void setup(){
   nema_setup(stepper2, 20000, 22000, 5000);
 
   //Dabble
-  dabble_setup();
+  //dabble_setup();
+
+  //BLE
+  setup_BLE();
 
   Serial.println("All setup tested.");
 }
@@ -65,7 +69,8 @@ void loop() {
   // nema_position(stepper2, 0);
   // nema_start(stepper1, stepper2);
   // Serial.println("Go to 0");
-  dabble_loop();
+  //dabble_loop();
+  delay(1000);
 
 }
 
