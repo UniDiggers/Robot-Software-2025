@@ -1,6 +1,8 @@
 #include <Wire.h>
 #include <Arduino.h>
 
+
+
 #include "tof.h"
 #include "test_i2c.h"
 #include "screen.h"
@@ -60,6 +62,8 @@ void setup(){
   Serial.println("All setup tested.");
 }
 
+
+
 void loop() {
   // nema_position(stepper1, 20000);
   // nema_position(stepper2, 20000);
@@ -70,6 +74,7 @@ void loop() {
   // nema_start(stepper1, stepper2);
   // Serial.println("Go to 0");
   //dabble_loop();
+  
   delay(1000);
 
 }
