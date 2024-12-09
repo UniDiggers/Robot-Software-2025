@@ -9,6 +9,7 @@
 #include "team.h"
 #include "stepper.h"
 #include "BLE.h"
+#include "Buzzer.h"
 
 #define DEBUG 1
 
@@ -47,9 +48,14 @@ void setup(){
   //Choose Team
   team_setup();
 
+  //Buzzer
+  buzzer_setup();
+
+
   //BLE
   setup_BLE();
   Serial.println("BLE Activated.");
+  BLE_ringtone();
   Serial.println("All setup tested.");
 }
 

@@ -10,6 +10,7 @@
 #include <BLEUtils.h>
 #include <BLEServer.h>
 #include "stepper.h"
+#include "Buzzer.h"
 
 String texte;
 
@@ -73,6 +74,7 @@ class MyCallbacks: public BLECharacteristicCallbacks {
         for (int i = 0; i < value.length(); i++){
           texte = texte + value[i];
         }
+        BLE_notification();
         Serial.print("Reçu = ");
         Serial.println(texte); 
         transcript(texte);
