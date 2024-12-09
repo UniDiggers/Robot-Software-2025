@@ -33,7 +33,6 @@ void nema_position(AccelStepper &stepper, int POSITION){
 void nema_start(AccelStepper &stepper, AccelStepper &stepper1){
   // Lancement des moteurs 
   while(stepper.distanceToGo() != 0 || stepper1.distanceToGo() != 0){
-    delay(10);
     stepper.run();
     stepper1.run();
   }

@@ -16,13 +16,25 @@ String texte;
 #define SERVICE_UUID        "4fafc201-1fb5-459e-8fcc-c5c9c331914b"
 #define CHARACTERISTIC_UUID "beb5483e-36e1-4688-b7f5-ea07361b26a8"
 
-void transcript(String texte){
+typedef struct{
+  int position1;
+  int position2;
+  int vitesse;
+  int acceleration;
+  bool reception;
+}BLE_param;
+
+BLE_param parameter;
+
+BLE_param transcript(String texte){
   //Position M1
   int position = (texte.substring(0, 2)).toInt();
   position = position * pow(10,(texte[2] -'0'));
   Serial.print("Position M1 = ");
   Serial.println(position);
   nema_position(stepper1, position);
+  parameter.position1 = position;
+
 
   //Position M2
   position = (texte.substring(3, 5)).toInt();
@@ -30,25 +42,26 @@ void transcript(String texte){
   Serial.print("Position M2 = ");
   Serial.println(position);
   nema_position(stepper2, position);
+  parameter.position2 = position;
 
   //Vitesse
   position = (texte.substring(6, 8)).toInt();
   position = position * pow(10,(texte[8] -'0'));
   Serial.print("Vitesse = ");
   Serial.println(position);
+  parameter.vitesse = position;
 
   //Accélération
   int acceleration = (texte.substring(9, 11)).toInt();
   acceleration = acceleration * pow(10,(texte[11] -'0'));
   Serial.print("Accélération = ");
   Serial.println(acceleration);
-  nema_setup(stepper1, position, 6500, acceleration);
-  nema_setup(stepper2, position, 6500, acceleration);
+  parameter.acceleration = acceleration;
 
-  //Lancement
-  Serial.println("Démarrage des moteurs.");
-  vTaskDelay(500);
-  nema_start(stepper1, stepper2);
+
+  //Réception
+  parameter.reception = true;
+  return parameter;
 }
 
 class MyCallbacks: public BLECharacteristicCallbacks {
