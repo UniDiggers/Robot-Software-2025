@@ -12,6 +12,12 @@
 #define STEP3 11
 #define DIR3 15
 
+//Auto 
+int DIAMETER = 60; // Diamètre de la roue en mm
+int STEPS = 200; // Nombre de pas par tour du moteur
+float PERIMETER  = 2 * PI * (DIAMETER/2); // Aire de la roue en mm²
+float  MM_PER_STEP = PERIMETER / STEPS; // Distance parcourue par le robot en mm par pas du moteur
+
 // Création des objets AccelStepper
 AccelStepper stepper1(1, STEP1, DIR1);
 AccelStepper stepper2(1, STEP2, DIR2);
@@ -27,7 +33,8 @@ void nema_setup(AccelStepper &stepper, int SPEED, int MAX_SPEED, int ACCELERATIO
 void nema_position(AccelStepper &stepper, int POSITION){
   // Déplacement du moteur vers l'avant
   //stepper.moveTo(POSITION);
-  stepper.move(POSITION);
+  stepper.move(POSITION/MM_PER_STEP);
+  Serial.println(POSITION/MM_PER_STEP);
 }
 
 void nema_start(AccelStepper &stepper, AccelStepper &stepper1){
@@ -36,6 +43,9 @@ void nema_start(AccelStepper &stepper, AccelStepper &stepper1){
     stepper.run();
     stepper1.run();
   }
+  // Arrêt des moteurs
+  stepper.stop();
+  stepper1.stop();
 }
 
 #endif

@@ -74,7 +74,9 @@ class MyCallbacks: public BLECharacteristicCallbacks {
         for (int i = 0; i < value.length(); i++){
           texte = texte + value[i];
         }
-        BLE_notification();
+        if(BUZZER_STATE){
+          BLE_notification();
+        }
         Serial.print("Reçu = ");
         Serial.println(texte); 
         transcript(texte);

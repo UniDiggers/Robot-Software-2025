@@ -1,7 +1,7 @@
 #ifndef BUZZER_H
 #define BUZZER_H
 
-
+#define BUZZER_STATE false
 
 #define BUZZER 5
 

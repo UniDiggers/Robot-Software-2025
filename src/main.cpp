@@ -55,7 +55,10 @@ void setup(){
   //BLE
   setup_BLE();
   Serial.println("BLE Activated.");
-  BLE_ringtone();
+  if(BUZZER_STATE){
+    BLE_ringtone();
+  }
+  
   Serial.println("All setup tested.");
 }
 
