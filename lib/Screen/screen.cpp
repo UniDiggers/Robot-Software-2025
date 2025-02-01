@@ -20,7 +20,7 @@ bool Screen::setup()
 void Screen::drawHome()
 {
     display.clearDisplay();
-    display.drawBitmap(0, 0, homeW, 128, 64, 1);
+    display.drawBitmap(0, 0, home, 128, 64, 1);
     display.display();
 }
 
@@ -32,11 +32,18 @@ void Screen::tofDraw(int distance)
     if (distance == -1 || distance > 2000)
         strcpy(strDistance, "OUT");
 
+    // Clear display
     display.clearDisplay();
-    display.drawBitmap(0, 0, tofW, 128, 64, 1);
-    display.setTextSize(2); // Draw 2X-scale text
+    display.drawBitmap(0, 0, home, 128, 64, 1);
+
+    display.setTextSize(0.5); // Draw 2X-scale text
     display.setTextColor(SSD1306_BLACK);
-    display.setCursor(55, 35);
+    //Display title
+    display.setCursor(15, 10);
+    display.println(F("Tof :"));
+
+    // Display distance
+    display.setCursor(15, 20);
     display.println(F(strDistance));
     display.display();
 }

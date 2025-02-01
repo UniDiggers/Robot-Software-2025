@@ -19,6 +19,7 @@ Buzzer buzzer1;
 Movement movement;
 TOF tof;
 
+
 char team;
 
 void setup()
@@ -32,7 +33,7 @@ void setup()
   if (!screen.setup())
     Serial.println("Screen setup failed");
   
-  if (!tof.setup(longRangeAccuracy))
+  if (!tof.setup(highAccuracy))
     Serial.println("TOF setup failed");
 
   if (digitalRead(PIN::TEAM) == LOW)
@@ -43,7 +44,7 @@ void setup()
   // BLE
   setup_BLE();
   Serial.println("BLE Activated.");
-  buzzer1.ringtoneBLE();
+  //buzzer1.ringtoneBLE();
 
   Serial.println("All setup tested.");
   screen.drawHome();
@@ -51,18 +52,7 @@ void setup()
 
 void loop()
 {
-  while (!digitalRead(PIN::TIR) == HIGH)
-  {
-    if (parameter.reception)
-    {
-      Serial.println("Start Motors");
-      for (int i = 0; i < stepperNb; i++)
-      {
-        movement.setParameters(i, parameter.vitesse, parameter.vitesse + 2000, parameter.acceleration);
-        movement.moveBy(i, parameter.position[i]);
-      }
-      movement.run();
-      parameter.reception = false;
-    }
-  }
+  // Display TOF
+  screen.tofDraw(tof.getDistance());
+ 
 }
