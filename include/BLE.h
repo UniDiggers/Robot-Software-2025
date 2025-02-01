@@ -1,7 +1,6 @@
 #ifndef BLE_H
 #define BLE_H
 
-#include <esp_task_wdt.h>
 #include <freertos/FreeRTOS.h>
 #include <freertos/task.h>
 

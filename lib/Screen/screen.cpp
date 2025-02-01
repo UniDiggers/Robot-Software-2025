@@ -1,5 +1,6 @@
 #include "screen.h"
 
+
 Screen::Screen(int addr, int width, int height, int resetPin)
 {
     display = Adafruit_SSD1306(width, height, &Wire, resetPin);
@@ -13,7 +14,8 @@ bool Screen::setup()
         return false;
     }
 
-    display.clearDisplay();
+    drawHome();
+    display.display();
     return true;
 }
 
@@ -21,7 +23,6 @@ void Screen::drawHome()
 {
     display.clearDisplay();
     display.drawBitmap(0, 0, home, 128, 64, 1);
-    display.display();
 }
 
 void Screen::tofDraw(int distance)
@@ -33,11 +34,12 @@ void Screen::tofDraw(int distance)
         strcpy(strDistance, "OUT");
 
     // Clear display
-    display.clearDisplay();
-    display.drawBitmap(0, 0, home, 128, 64, 1);
+    drawHome();
 
+    // Set text size, color, and location
     display.setTextSize(0.5); // Draw 2X-scale text
     display.setTextColor(SSD1306_BLACK);
+
     //Display title
     display.setCursor(15, 10);
     display.println(F("Tof :"));
@@ -45,5 +47,28 @@ void Screen::tofDraw(int distance)
     // Display distance
     display.setCursor(15, 20);
     display.println(F(strDistance));
+}
+
+void Screen::timerDraw(int time)
+{
+    // Clear display
+    drawHome();
+
+    // Set text size, color, and location
+    display.setTextSize(0.5); // Draw 2X-scale text
+    display.setTextColor(SSD1306_BLACK);
+
+    //Display title
+    display.setCursor(15, 40);
+    display.println(F("Timer :"));
+
+    // Display distance
+    display.setCursor(15, 50);
+    display.println(time);
+
+}
+
+void Screen::update()
+{
     display.display();
 }

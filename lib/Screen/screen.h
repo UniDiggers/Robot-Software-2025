@@ -4,6 +4,7 @@
 
 #include "QuentbinksBoard.h"
 #include "wallpaper.h"
+#include "Timer.h"
 
 static const int OLED_RESET = -1;
 static const int ScreenWidth = 128;
@@ -16,9 +17,12 @@ private:
     int addr = ScreenAddr, width = ScreenWidth, height = ScreenHeight, resetPin = ScreenAddr;
     Adafruit_SSD1306 display;
 
+
 public:
     Screen(int addr = ScreenAddr, int width = ScreenWidth, int height = ScreenHeight, int resetPin = OLED_RESET);
     bool setup();
     void drawHome();
     void tofDraw(int distance);
+    void timerDraw(int time);
+    void update();
 };
