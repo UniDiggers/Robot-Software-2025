@@ -28,3 +28,9 @@ void Movement::run()
     for (int i = 0; i < stepperNb; i++)
         stepper[i].run();
 }
+
+void Movement::SetSpeed(int stepperIndex, int speed, int maxSpeed, int accel){
+    setParameters(stepperIndex, speed, maxSpeed, accel);
+    for (int i = 0; i < stepperNb; i++)
+        stepper[i].runSpeed();
+}

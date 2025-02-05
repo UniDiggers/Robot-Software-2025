@@ -1,5 +1,6 @@
 #include "Timer.h"
 
+
 Timer::Timer() {}
 
 Timer::Timer(int duration, void (*function)(void), bool loop, uint16_t clockDivider)

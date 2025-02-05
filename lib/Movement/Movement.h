@@ -27,4 +27,5 @@ public:
     void setParameters(int stepperIndex, int speed, int maxSpeed, int accel);
     void moveBy(int stepperIndex, int target);
     void run();
+    void SetSpeed(int stepperIndex, int speed, int maxSpeed, int accel);
 };
