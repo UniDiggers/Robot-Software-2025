@@ -68,6 +68,11 @@ void setup()
 
   Serial.println("All setup tested.");
   //screen.drawHome();
+
+  //Dablle begin
+  int accel = 500;
+  int speed  = 500;
+  int offset = 500;
 }
 
 void loop()
@@ -77,26 +82,50 @@ void loop()
   //screen.timerDraw(timer.getRemainingTime());
   //screen.update();
   //Serial.println(timer.getRemainingTime());
+  
 
   Dabble.processInput();
 
+
+  //Increase Accel
+  if(GamePad.isTrianglePressed()){
+    accel += offset;
+    Serial.println("Accel increased to " + String(accel));
+  }
+  //Decrease Accel
+  if(GamePad.isCrossPressed()){
+    accel -= offset;
+    Serial.println("Accel decreased to " + String(accel));
+  }
+
+  //Decrease Speed
+  if(GamePad.isSquarePressed()){
+    speed -= offset;
+    Serial.println("Speed decreased to " + String(speed));
+  }
+  //Increase Speed
+  if(GamePad.isCirclePressed()){
+    speed += offset;
+    Serial.println("Speed increased to " + String(speed));
+  }
+
   if (GamePad.isUpPressed()){
-    movement.SetSpeed(0, 3000, 3000, 2000);
-    movement.SetSpeed(1, 3000, 3000, 2000);
+    movement.SetSpeed(0, speed, speed, accel);
+    movement.SetSpeed(1, speed, speed, accel);
     Serial.println("UP");
   }
   if (GamePad.isDownPressed()){
-    movement.SetSpeed(0, -3000, 3000, 2000);
-    movement.SetSpeed(1, -3000, 3000, 2000);
+    movement.SetSpeed(0, -speed, speed, accel);
+    movement.SetSpeed(1, -speed, speed, accel);
     Serial.println("DOWN");
   }
   if (GamePad.isLeftPressed()){
-    movement.SetSpeed(1, 3000, 3000, 2000);
-    movement.SetSpeed(0, -0, 0, 0);
+    movement.SetSpeed(1, speed, speed, accel);
+    movement.SetSpeed(0, 0, 0, 0);
     Serial.println("LEFT");
   }
   if (GamePad.isRightPressed()){
-    movement.SetSpeed(0, 3000, 3000, 2000);
+    movement.SetSpeed(0, speed, speed, accel);
     movement.SetSpeed(1, 0, 0, 0);
     Serial.println("RIGHT");
   }
