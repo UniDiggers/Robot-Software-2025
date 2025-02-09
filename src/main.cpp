@@ -5,6 +5,8 @@
 #include "Movement.h"
 #include "screen.h"
 #include "tof.h"
+#include "timer.h"
+#include "strategy.h"
 
 #include "wallpaper.h"
 #include <DabbleESP32.h>
@@ -32,7 +34,7 @@ char team;
 
 void fullstop()
 {
-  buzzer1.ringtoneBLE();
+    strategy.fullstop();
 }
 
 
@@ -50,7 +52,6 @@ void setup()
   delay(500);
 
   Dabble.begin("ESP32 PAMI");
-  //timer.start();
   
   // Initialisation des composants
   if (!screen.setup())
@@ -67,7 +68,6 @@ void setup()
 
 
   Serial.println("BLE Activated.");
-  //buzzer1.ringtoneBLE();
 
   Serial.println("All setup tested.");
   //screen.drawHome();

@@ -34,3 +34,9 @@ void Movement::SetSpeed(int stepperIndex, int speed, int maxSpeed, int accel){
     for (int i = 0; i < stepperNb; i++)
         stepper[i].runSpeed();
 }
+
+void Movement::fullstop()
+{
+    for (int i = 0; i < stepperNb; i++)
+        stepper[i].stop();
+}
