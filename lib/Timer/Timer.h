@@ -1,8 +1,9 @@
 #pragma once
 
 #include <Arduino.h>
+#include "utils.h"
 
-#define ERROR(reason) Serial.println("[ERROR] " + String(__FILE__) + ":" + String(__LINE__) + ": " + reason)
+
 
 static const int DEFAULT_CLK = 80;
 static const int SECONDS_DIVIDER = 1000000;

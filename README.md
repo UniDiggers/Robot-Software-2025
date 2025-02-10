@@ -26,7 +26,7 @@ https://github.com/TiTooom/PCBetes
 <p align="center">
     <img src="assets/Screen/home.png" alt="Image">
 </p>
-Affichage des informations essentiels pendant le match, telle que :
+Affichage des informations essentielles pendant le match, telles que :
 
 - La distance de l'obstacle
 - Le timer

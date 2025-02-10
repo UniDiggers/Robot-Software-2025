@@ -1,52 +1,48 @@
 #include "Strategy.h"
 
-#include "strat.h"
+#include "strategies/strat.h"
 
 Strategy::Strategy() {}
 
-void Strategy::get_UID(){ 
-    mac_adress = ESP.getEfuseMac();
-}
 
 
 void Strategy::selectTeam()
 {
-    if (digitalRead(TEAM_PIN) == LOW)
+    if (digitalRead(PIN::TEAM) == LOW)
         team = 'b';
-    else if (digitalRead(TEAM_PIN) == HIGH)
+    else if (digitalRead(PIN::TEAM) == HIGH)
         team = 'y';
     else
-        ERROR("Unable to select team.");
+        Serial.println("Error: team selection failed");
 }
 
-void Strategy::PAMI_reference(){
-    
-    switch(mac_adress){
-        case 193885460049968: // Real MAC adress (uint64_t format)
-            PAMI = "The original";
-            break;
-        case 193885460049969: // Fake
-            PAMI = "PAMI1"
-            break;
-        case 193885460049970: // Fake
-            PAMI = "PAMI2"
-            break;
-        case 193885460049971: // Fake
-            PAMI = "PAMI3"
-            break;
-        case 193885460049972: // Fake
-            PAMI = "PAMI4"
-            break;
+pamiID Strategy::selectCurrentPAMI(){    
+    switch(mac_adress)
+    {
+        case 193885460049973: // Fake adress Rockstar
+            return rockstar;
+        case 193885460049969: // Fake adress PAMI1
+            return pami1;
+        case 193885460049970: // Fake adress PAMI2
+            return pami2;
+        case 193885460049971: // Fake adress PAMI3
+            return pami3;
+        case 193885460049968: // Real adress (uint64_t format) test PAMI (modded)
+            return the_original;
         default:
-            ERROR("PAMI UID Unknown.");
-            break;
+            Serial.println("PAMI UID Unknown.");
+            return the_original; // Shouldn't happen but just in case
     }
 }
 
-void Strategy::init(){
+void Strategy::setup(){
     selectTeam();
-    get_UID();
-    PAMI_reference();
+    mac_adress = ESP.getEfuseMac();
+    currentPAMI = selectCurrentPAMI();
+}
+
+void Strategy::init(){
+    //init
 }
 
 void Strategy::execAction(Action action)
@@ -81,12 +77,9 @@ void Strategy::execAction(Action action)
 
 void Strategy::game()
 {
-    for (const auto& action : actions)
+    for (const auto& action : actions[currentPAMI])
     {
-        if(action.PAMI_type == PAMI){
-            execAction(action);
-        }
-        
+        execAction(action);
     }
 
     fullstop();

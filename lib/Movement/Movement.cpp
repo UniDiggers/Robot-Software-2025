@@ -39,4 +39,6 @@ void Movement::fullstop()
 {
     for (int i = 0; i < stepperNb; i++)
         stepper[i].stop();
+
+    // add moove function 
 }

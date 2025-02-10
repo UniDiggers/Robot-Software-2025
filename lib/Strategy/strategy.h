@@ -16,16 +16,18 @@ class Strategy
 {
 private:
     char team;
-    const char* PAMI;
     uint64_t mac_adress;
+    pamiID currentPAMI;
+    pamiID selectCurrentPAMI();
     Movement movement;
+    void execAction(Action action);
+
 
 public:
     Strategy();
-    void get_UID();
     void selectTeam();
-    void PAMI_reference();
     void init();
+    void setup();
     void game();
     void fullstop();
 };
