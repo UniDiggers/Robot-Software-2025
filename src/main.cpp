@@ -56,10 +56,12 @@ void setup()
     Serial.println("TOF setup failed");
 
 
+
   //screen.drawHome();
 
 
   setup_dabble();
+  strategy.setup();
   
 }
 
@@ -72,7 +74,7 @@ void loop()
   //Serial.println(timer.getRemainingTime());
   
 
-  dabble_loop(movement);
+  dabble_loop(movement, strategy);
     
   
 

@@ -10,6 +10,8 @@
 #include "Movement.h"
 #include "Timer.h"
 
+#include "Servo.h"
+
 static const int DEFAULT_GAME_DURATION = 100;
 
 class Strategy
@@ -20,9 +22,8 @@ private:
     pamiID currentPAMI;
     pamiID selectCurrentPAMI();
     Movement movement;
-    void execAction(Action action);
-
-
+    SERVO servo;
+    
 public:
     Strategy();
     void selectTeam();
@@ -30,4 +31,5 @@ public:
     void setup();
     void game();
     void fullstop();
+    void execAction(Action action);
 };

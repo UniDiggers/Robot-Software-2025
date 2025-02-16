@@ -1,6 +1,7 @@
 #include "Strategy.h"
 
 #include "strategies/strat.h"
+#include "servo.h"
 
 Strategy::Strategy() {}
 
@@ -19,7 +20,7 @@ void Strategy::selectTeam()
 pamiID Strategy::selectCurrentPAMI(){    
     switch(mac_adress)
     {
-        case 193885460049973: // Fake adress Rockstar
+        case 79952397196012: // Real adress Rockstar (PCB V2)
             return rockstar;
         case 193885460049969: // Fake adress PAMI1
             return pami1;
@@ -36,9 +37,16 @@ pamiID Strategy::selectCurrentPAMI(){
 }
 
 void Strategy::setup(){
+
+    // Select team
     selectTeam();
+
+    // Select current PAMI
     mac_adress = ESP.getEfuseMac();
     currentPAMI = selectCurrentPAMI();
+
+    // Init servo
+    servo.setup();
 }
 
 void Strategy::init(){
@@ -65,9 +73,11 @@ void Strategy::execAction(Action action)
             break;
         case raiseArm:
             Serial.println("Raising Arms...");
+            servo.moveAllServo(180);
             break;
         case lowerArm:
             Serial.println("Lowering Arms...");
+            servo.moveAllServo(0);
             break;
         default:
             ERROR("wrong action type");

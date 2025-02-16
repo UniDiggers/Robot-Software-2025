@@ -25,7 +25,9 @@ namespace PIN
     constexpr int
         BUZZER = 5,
         TIR = 6,
-        TEAM = 7;
+        TEAM = 7,
+        LSERVO = 21,
+        RSERVO = 47;
 }
 
 #endif

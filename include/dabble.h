@@ -1,6 +1,7 @@
 #ifndef DABBLE_H
 
 #include <DabbleESP32.h>
+#include <strategy.h>
 
 //Dablle begin
 int speed_dabble  = 500;
@@ -11,7 +12,7 @@ void setup_dabble(){
     Dabble.begin("ESP32 PAMI");
 }
 
-void dabble_loop(Movement &movement){
+void dabble_loop(Movement &movement, Strategy &strategy){
     Dabble.processInput();
 
 
@@ -61,6 +62,15 @@ void dabble_loop(Movement &movement){
     movement.SetSpeed(1, 0, 0, 0);
     Serial.println("RIGHT");
   }
+  if(GamePad.isStartPressed()){
+    strategy.execAction(Action(raiseArm));
+    delay(500);
+
+  }
+  if(GamePad.isSelectPressed()){
+    strategy.execAction(Action(lowerArm));
+    delay(500);
+  }
 }
 
-#endif DABBLE_H
+#endif
