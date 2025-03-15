@@ -8,8 +8,9 @@ int speed_dabble  = 500;
 int accel_dabble = speed_dabble/2;
 int offset_dabble = 500;
 
-void setup_dabble(){
+bool setup_dabble(){
     Dabble.begin("ESP32 PAMI");
+    return true;
 }
 
 void dabble_loop(Movement &movement, Strategy &strategy){
