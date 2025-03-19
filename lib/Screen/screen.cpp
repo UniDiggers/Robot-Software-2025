@@ -33,8 +33,6 @@ void Screen::tofDraw(int distance)
     if (distance == -1 || distance > 2000)
         strcpy(strDistance, "OUT");
 
-    // Clear display
-    drawHome();
 
     // Set text size, color, and location
     display.setTextSize(0.5); // Draw 2X-scale text
@@ -51,8 +49,6 @@ void Screen::tofDraw(int distance)
 
 void Screen::timerDraw(int time)
 {
-    // Clear display
-    drawHome();
 
     // Set text size, color, and location
     display.setTextSize(0.5); // Draw 2X-scale text
@@ -72,3 +68,4 @@ void Screen::update()
 {
     display.display();
 }
+

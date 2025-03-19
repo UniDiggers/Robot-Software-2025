@@ -73,7 +73,7 @@ void Strategy::execAction(Action action)
             break;
         case raiseArm:
             Serial.println("Raising Arms...");
-            servo.moveAllServo(180);
+            servo.moveAllServo(110);
             break;
         case lowerArm:
             Serial.println("Lowering Arms...");

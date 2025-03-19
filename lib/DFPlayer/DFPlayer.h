@@ -10,6 +10,9 @@ static const uint8_t PIN_MP3_TX = 36;
 static const uint8_t PIN_MP3_RX = 37; 
 extern SoftwareSerial softwareSerial;
 
+#define BUSY 35
+#define VOLUME 30
+
 #define SCREEN_OK 1
 #define SCREEN_NOK 2
 #define TOF_OK 3
@@ -18,6 +21,9 @@ extern SoftwareSerial softwareSerial;
 #define TEAM_BLUE 6
 #define BLUETOOTH_OK 7
 #define BLUETOOTH_NOK 8
+#define MICKEY1 9
+#define MICKEY2 10
+#define CRAZY_FROG 11
 
 
 class DFPlayer{
