@@ -53,17 +53,17 @@ void setup()
 
   // Initialisation UART
   Serial.begin(115200);
-  //delay(500);
+  delay(500);
 
   // Initialisation I2C
   pinMode(PIN::TEAM, INPUT_PULLUP);
   pinMode(PIN::TIR, INPUT_PULLUP);
   Wire.begin(PIN::I2C::SDA, PIN::I2C::SCL); // I2C screen
-  //delay(500);
+  delay(500);
 
   // Initialisation du DFPlayer
   bool STATE = player.setup();
-  STATE = false;
+
   
   // Initialisation de l'écran
   if (!screen.setup()){
@@ -100,12 +100,12 @@ void setup()
     player.Play(STATE, BLUETOOTH_OK, VOLUME, 1500);
 
 
-  //player.Play(STATE, MICKEY2, 20, 30000);
+  player.Play(STATE, MICKEY2, VOLUME, 30000);
   strategy.setup();
   player.Play(STATE, CRAZY_FROG, VOLUME, 0);
   
   // Initialisation du timer
-  endtimer.start();
+  //endtimer.start();
   //updatetimer.start();
 }
 

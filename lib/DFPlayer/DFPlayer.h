@@ -3,12 +3,10 @@
 #include <Arduino.h>
 #include "utils.h"
 
-#include "SoftwareSerial.h"
 #include "DFRobotDFPlayerMini.h"
 
 static const uint8_t PIN_MP3_TX = 36; 
 static const uint8_t PIN_MP3_RX = 37; 
-extern SoftwareSerial softwareSerial;
 
 #define BUSY 35
 #define VOLUME 30

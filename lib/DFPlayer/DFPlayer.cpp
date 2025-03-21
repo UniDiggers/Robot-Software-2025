@@ -1,28 +1,29 @@
 #include "DFPlayer.h"
 #include <Arduino.h>
 
-SoftwareSerial softwareSerial(PIN_MP3_RX, PIN_MP3_TX);
+// Remplacez `Serial1` par l'UART matériel que vous souhaitez utiliser
+#define DFPLAYER_SERIAL Serial0
 
 bool DFPlayer::setup() {
-    softwareSerial.begin(9600);
-    player.begin(softwareSerial);
+    DFPLAYER_SERIAL.begin(9600);
 
-    if (player.begin(softwareSerial)){
+    bool initialized = player.begin(DFPLAYER_SERIAL);
+
+    if (initialized) {
         Serial.println("DFPlayer Mini initialized");
         return true;
-    }
-    else{
+    } else {
         Serial.println("Connecting to DFPlayer Mini failed!");
         return false;
     }
 }
 
 void DFPlayer::Play(bool state, int track, int volume, int tempo) {
-    if(state){
+    if (state) {
         player.volume(volume);
         player.play(track);
         Serial.println("FILE : " + String(player.readCurrentFileNumber()));
         delay(tempo);
-    }  
+    }
 }
 
