@@ -19,20 +19,18 @@
 
 void fullstop();
 void refresh();
+void timer_switch();
 
 Screen screen;
 Buzzer buzzer1;
 Movement movement;
 Strategy strategy;
 TOF tof;
-Timer endtimer = Timer(100, &fullstop, false);
-Timer updatetimer = Timer(1, &refresh, true);
-
+Timer globaltimer = Timer(&fullstop, 100, seconds);
+Timer updatetimer = Timer(&timer_switch, 1, seconds);
 DFPlayer player;
 
-
-
-
+bool SWITCH = false;
 char team;
 
 void fullstop(){
@@ -40,11 +38,15 @@ void fullstop(){
 }
 
 void refresh(){
-  // Display
   screen.drawHome();
   screen.tofDraw(tof.getDistance());
-  screen.timerDraw(endtimer.getRemainingTime());
+  screen.timerDraw(globaltimer.getRemainingTime());
   screen.update();
+  SWITCH = false;
+}
+
+void timer_switch(){
+  SWITCH = true;
 }
 
 
@@ -53,18 +55,15 @@ void setup()
 
   // Initialisation UART
   Serial.begin(115200);
-  delay(500);
 
   // Initialisation I2C
   pinMode(PIN::TEAM, INPUT_PULLUP);
   pinMode(PIN::TIR, INPUT_PULLUP);
   Wire.begin(PIN::I2C::SDA, PIN::I2C::SCL); // I2C screen
-  delay(500);
 
   // Initialisation du DFPlayer
   bool STATE = player.setup();
 
-  
   // Initialisation de l'écran
   if (!screen.setup()){
     Serial.println("Screen setup failed");
@@ -99,21 +98,26 @@ void setup()
   else
     player.Play(STATE, BLUETOOTH_OK, VOLUME, 1500);
 
-
+  // Musique
   player.Play(STATE, MICKEY2, VOLUME, 30000);
   strategy.setup();
   player.Play(STATE, CRAZY_FROG, VOLUME, 0);
   
   // Initialisation du timer
-  //endtimer.start();
-  //updatetimer.start();
+  globaltimer.start();
+  updatetimer.start();
 }
 
 void loop(){
   
   
-
+  // DABBLE
   dabble_loop(movement, strategy);
+
+  // SCREEN REFRESH - 1x/sec
+  if(SWITCH){
+    refresh();
+  }
   
     
   
