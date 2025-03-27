@@ -51,7 +51,7 @@ int Timer::getTime(int type, TimeUnit unit) // True is elapsed, false remaining
     if (elapsedTime > initialDuration / DIVIDER[unit] || elapsedTime < 0 || !started)
         return -1;
     else
-        return (int) (type ? elapsedTime : initialDuration - elapsedTime);
+        return (int) (type ? elapsedTime : (initialDuration / DIVIDER[unit]) - elapsedTime);
 }
 
 int Timer::getElapsedTime(TimeUnit unit)

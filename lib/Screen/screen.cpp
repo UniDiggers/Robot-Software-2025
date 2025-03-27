@@ -64,6 +64,25 @@ void Screen::timerDraw(int time)
 
 }
 
+void Screen::teamDraw(char team){
+    // Set text size, color, and location
+    display.setTextSize(0.5); // Draw 2X-scale text
+    display.setTextColor(SSD1306_BLACK);
+
+    //Display title
+    display.setCursor(40, 10);
+    display.println(F("Team :"));
+
+    // Display distance
+    display.setCursor(40, 20);
+    if(team == 'b')
+        display.println(F("Blue"));
+    else if(team == 'y')
+        display.println(F("Yellow"));
+    else
+        display.println(team);
+}
+
 void Screen::update()
 {
     display.display();

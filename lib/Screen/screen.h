@@ -24,5 +24,6 @@ public:
     void drawHome();
     void tofDraw(int distance);
     void timerDraw(int time);
+    void teamDraw(char team);
     void update();
 };

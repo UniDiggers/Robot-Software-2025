@@ -15,8 +15,6 @@
 #include "QuentbinksBoard.h"
 #include "utils.h"
 
-#define DEBUG 1
-
 void fullstop();
 void refresh();
 void timer_switch();
@@ -34,13 +32,17 @@ bool SWITCH = false;
 char team;
 
 void fullstop(){
-    strategy.fullstop();
+    //strategy.fullstop();
+    updatetimer.stop();
+    globaltimer.stop();
+
 }
 
 void refresh(){
   screen.drawHome();
   screen.tofDraw(tof.getDistance());
   screen.timerDraw(globaltimer.getRemainingTime());
+  screen.teamDraw(team);
   screen.update();
   SWITCH = false;
 }
@@ -60,6 +62,10 @@ void setup()
   pinMode(PIN::TEAM, INPUT_PULLUP);
   pinMode(PIN::TIR, INPUT_PULLUP);
   Wire.begin(PIN::I2C::SDA, PIN::I2C::SCL); // I2C screen
+
+  // Initialisation du timer
+  globaltimer.start();
+  updatetimer.start();
 
   // Initialisation du DFPlayer
   bool STATE = player.setup();
@@ -99,26 +105,37 @@ void setup()
     player.Play(STATE, BLUETOOTH_OK, VOLUME, 1500);
 
   // Musique
-  player.Play(STATE, MICKEY2, VOLUME, 30000);
-  strategy.setup();
   player.Play(STATE, CRAZY_FROG, VOLUME, 0);
   
-  // Initialisation du timer
-  globaltimer.start();
-  updatetimer.start();
+
+
+  //strategy.setup();
 }
 
 void loop(){
   
   
   // DABBLE
-  dabble_loop(movement, strategy);
+  //dabble_loop(movement, strategy);
 
   // SCREEN REFRESH - 1x/sec
   if(SWITCH){
     refresh();
   }
   
+  // TEST MOVEMENT
+  movement.RotationOnCenter(right, 400, 360);
+  movement.run();
+  movement.RotationOnCenter(left, 400, 360);
+  movement.run();
+
+  movement.RotationOnWheel(right, 400, 360);
+  movement.run();
+  movement.RotationOnWheel(left, 400, 360);
+  movement.run();
+
+
+  delay(2000);
     
   
 

@@ -44,33 +44,33 @@ void dabble_loop(Movement &movement, Strategy &strategy){
   }
 
   if (GamePad.isUpPressed()){
-    movement.SetSpeed(0, speed_dabble, speed_dabble, accel_dabble);
-    movement.SetSpeed(1, speed_dabble, speed_dabble, accel_dabble);
+    movement.SetSpeed(left, speed_dabble, speed_dabble, accel_dabble);
+    movement.SetSpeed(right, speed_dabble, speed_dabble, accel_dabble);
     Serial.println("UP");
   }
   if (GamePad.isDownPressed()){
-    movement.SetSpeed(0, -speed_dabble, speed_dabble, accel_dabble);
-    movement.SetSpeed(1, -speed_dabble, speed_dabble, accel_dabble);
+    movement.SetSpeed(left, -speed_dabble, speed_dabble, accel_dabble);
+    movement.SetSpeed(right, -speed_dabble, speed_dabble, accel_dabble);
     Serial.println("DOWN");
   }
   if (GamePad.isLeftPressed()){
-    movement.SetSpeed(1, speed_dabble, speed_dabble, accel_dabble);
-    movement.SetSpeed(0, 0, 0, 0);
+    movement.SetSpeed(right, speed_dabble, speed_dabble, accel_dabble);
+    movement.SetSpeed(left, 0, 0, 0);
     Serial.println("LEFT");
   }
   if (GamePad.isRightPressed()){
-    movement.SetSpeed(0, speed_dabble, speed_dabble, accel_dabble);
-    movement.SetSpeed(1, 0, 0, 0);
+    movement.SetSpeed(left, speed_dabble, speed_dabble, accel_dabble);
+    movement.SetSpeed(right, 0, 0, 0);
     Serial.println("RIGHT");
   }
   if(GamePad.isStartPressed()){
     strategy.execAction(Action(raiseArm));
-    delay(500);
+    delay(100);
 
   }
   if(GamePad.isSelectPressed()){
     strategy.execAction(Action(lowerArm));
-    delay(500);
+    delay(100);
   }
 }
 
