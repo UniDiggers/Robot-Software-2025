@@ -21,16 +21,22 @@ void Movement::moveBy(int stepperIndex, int target, int speed, int maxSpeed, int
 {
     setParameters(stepperIndex, speed, maxSpeed, accel);
     stepper[stepperIndex].move(target/mmPerStep);
-    Serial.println(target/mmPerStep);
+    stepper[stepperIndex].setCurrentPosition(0);
+    Serial.println("mm :" + String(target) + "\nsteps : " + String(target/mmPerStep));
 }
 
 
 void Movement::run()
 {
-    while(stepper[0].distanceToGo() != 0 && stepper[1].distanceToGo() != 0){
-        stepper[0].run();
-        stepper[1].run();
-    }
+    Serial.println("Start running");
+    do{
+        Serial.println("Running");
+        stepper[left].run();
+        stepper[right].run();
+        Serial.println("stepper1 : " + String(stepper[left].currentPosition()) + " stepper2 : " + String(stepper[right].currentPosition()));
+        Serial.println("stepper1 : " + String(stepper[left].distanceToGo()) + " stepper2 : " + String(stepper[right].distanceToGo()));
+    } while (stepper[left].run() || stepper[right].run());
+    Serial.println("End running");
 }
 
 void Movement::SetSpeed(int stepperIndex, int speed, int maxSpeed, int accel){
@@ -64,26 +70,23 @@ void Movement::Curve(direction way, int speed, float alpha , float radius){
         moveBy(right, distance_right, speed, speed, speed);
     }
     else{
-        ERROR("No direction given");
+        ERROR("No direction given : " + way);
     }
 }
 
 void Movement::RotationOnWheel(direction way, int speed, float alpha){
-    if(!way){ //left
+    if(way == 0){ //left
         float distance_right = (alpha/180) * PI * width;
-        stepper[left].stop();
-        moveBy(left, 0, 0, 0, 0);
         moveBy(right, distance_right, speed, speed, speed);
+
     }
-    if(way){ //right
+    else if(way == 1){ //right
         float distance_left = (alpha/180) * PI * width;
-        stepper[right].stop();
-        moveBy(right, 0, 0, 0, 0);
         moveBy(left, distance_left, speed, speed, speed);
         
     }
     else{
-        ERROR("No direction given");
+        ERROR("No direction given : " + way);
     }
 }
 
@@ -94,13 +97,13 @@ void Movement::RotationOnCenter(direction way, int speed, float alpha){
         moveBy(left, distance_left, speed, speed, speed);
         moveBy(right, distance_right, speed, speed, speed);
     }
-    if(way){ //right
+    else if(way){ //right
         float distance_left = (alpha/180) * PI * width/2;
         float distance_right = -distance_left;
         moveBy(left, distance_left, speed, speed, speed);
         moveBy(right, distance_right, speed, speed, speed);
     }
     else{
-        ERROR("No direction given");
+        ERROR("No direction given : " + way);
     }
 }

@@ -119,20 +119,21 @@ void loop(){
   //dabble_loop(movement, strategy);
 
   // SCREEN REFRESH - 1x/sec
-  if(SWITCH){
-    refresh();
-  }
+  // if(SWITCH){
+  //   refresh();
+  // }
   
   // TEST MOVEMENT
-  movement.RotationOnCenter(right, 400, 360);
-  movement.run();
-  movement.RotationOnCenter(left, 400, 360);
-  movement.run();
+  // movement.RotationOnCenter(right, 400, 360);
+  // movement.run();
+  // movement.RotationOnCenter(left, 400, 360);
+  // movement.run();
 
   movement.RotationOnWheel(right, 400, 360);
   movement.run();
   movement.RotationOnWheel(left, 400, 360);
   movement.run();
+  
 
 
   delay(2000);
