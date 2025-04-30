@@ -9,9 +9,9 @@ Strategy::Strategy() {}
 
 void Strategy::selectTeam()
 {
-    if (digitalRead(PIN::TEAM) == LOW)
+    if (digitalRead(STATE::TEAM) == LOW)
         team = 'b';
-    else if (digitalRead(PIN::TEAM) == HIGH)
+    else if (digitalRead(STATE::TEAM) == HIGH)
         team = 'y';
     else
         Serial.println("Error: team selection failed");
@@ -50,7 +50,7 @@ void Strategy::setup(){
 }
 
 void Strategy::init(){
-    //init
+    //init placement
 }
 
 void Strategy::execAction(Action action)
@@ -73,11 +73,9 @@ void Strategy::execAction(Action action)
             break;
         case raiseArm:
             Serial.println("Raising Arms...");
-            servo.moveAllServo(110);
             break;
         case lowerArm:
             Serial.println("Lowering Arms...");
-            servo.moveAllServo(0);
             break;
         default:
             ERROR("wrong action type");

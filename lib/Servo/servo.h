@@ -3,16 +3,16 @@
 #include <ESP32Servo.h>
 
 #include "utils.h"
-#include "QuentbinksBoard.h"
+#include "PAMIBOARD.h"
+
+
 
 class SERVO
 {
 private:
-    
+    Servo tab_servo[5];
 
 public:
     bool setup();
-    bool moveLServo(int angle);
-    bool moveRServo(int angle);
-    bool moveAllServo(int angle);    
+    bool moveServo(uint8_t index, uint8_t angle);    
 };

@@ -2,10 +2,10 @@
 
 #include <AccelStepper.h>
 
-#include "QuentbinksBoard.h"
+#include "PAMIBOARD.h"
 #include "utils.h"
 
-using namespace PIN::Steppers;
+using namespace Steppers;
 
 static const int defaultSpeed = 100;
 static const int defaultAccel = 50;
@@ -26,8 +26,8 @@ private:
     float mmPerStep = wheelPerimeter / (baseSteps * microstepping); // Adjusted for microstepping
     float width = 92; // largeur entre les 2 roues
     AccelStepper stepper[2] = {
-        AccelStepper(1, STEP3, DIR3),
-        AccelStepper(1, STEP1, DIR1)
+        AccelStepper(1, Steppers::STEP1, Steppers::DIR1),
+        AccelStepper(1, Steppers::STEP2, Steppers::DIR2)
         
     };
 

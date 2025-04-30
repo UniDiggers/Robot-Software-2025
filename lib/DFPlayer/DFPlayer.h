@@ -5,9 +5,6 @@
 
 #include "DFRobotDFPlayerMini.h"
 
-static const uint8_t PIN_MP3_TX = 36; 
-static const uint8_t PIN_MP3_RX = 37; 
-
 #define BUSY 35
 #define VOLUME 30
 
@@ -22,6 +19,7 @@ static const uint8_t PIN_MP3_RX = 37;
 #define MICKEY1 9
 #define MICKEY2 10
 #define CRAZY_FROG 11
+#define KLAXON 12
 
 
 class DFPlayer{
@@ -29,5 +27,5 @@ class DFPlayer{
         DFRobotDFPlayerMini player;
     public:
         bool setup();
-        void Play(bool state, int track, int volume, int tempo);
+        void Play(bool state, uint8_t track, uint8_t volume);
 };

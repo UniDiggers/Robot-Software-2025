@@ -3,18 +3,24 @@
 #include <VL53L0X.h>
 #include <Wire.h>
 
+#include "PAMIBOARD.h"
 #include "utils.h"
+
+const uint8_t sensorCount = 2; 
+const uint8_t xshutPins[sensorCount] = {ToF::XSHUT1, ToF::XSHUT2};
+const uint8_t readyPins[sensorCount] = {ToF::READY1, ToF::READY2};
 
 class TOF
 {
 private:
     int timeout = 500;
-    int preRange = 18, finalRange = 14;
+    uint8_t preRange = 18, finalRange = 14;
     int highTimingBudget = 200000, lowTimingBudget = 20000; // ms
     float mcps = 0.1;
-    VL53L0X tof;
+    VL53L0X sensors[sensorCount];
 
 public:
-    bool setup(int mode = longRangeAccuracy);
-    int getDistance();
+    uint8_t reset();
+    bool setup(uint8_t mode);
+    uint16_t getDistance(uint8_t sensorIndex);
 };

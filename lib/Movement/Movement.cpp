@@ -28,15 +28,10 @@ void Movement::moveBy(int stepperIndex, int target, int speed, int maxSpeed, int
 
 void Movement::run()
 {
-    Serial.println("Start running");
     do{
-        Serial.println("Running");
         stepper[left].run();
         stepper[right].run();
-        Serial.println("stepper1 : " + String(stepper[left].currentPosition()) + " stepper2 : " + String(stepper[right].currentPosition()));
-        Serial.println("stepper1 : " + String(stepper[left].distanceToGo()) + " stepper2 : " + String(stepper[right].distanceToGo()));
     } while (stepper[left].run() || stepper[right].run());
-    Serial.println("End running");
 }
 
 void Movement::SetSpeed(int stepperIndex, int speed, int maxSpeed, int accel){

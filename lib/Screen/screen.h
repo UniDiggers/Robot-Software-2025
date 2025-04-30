@@ -2,7 +2,7 @@
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
 
-#include "QuentbinksBoard.h"
+#include "PAMIBOARD.h"
 #include "wallpaper.h"
 #include "Timer.h"
 

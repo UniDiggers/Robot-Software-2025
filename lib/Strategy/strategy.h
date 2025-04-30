@@ -2,7 +2,7 @@
 
 #include <Arduino.h>
 
-#include "QuentbinksBoard.h"
+#include "PAMIBOARD.h"
 #include "utils.h"
 
 #include "Action.h"

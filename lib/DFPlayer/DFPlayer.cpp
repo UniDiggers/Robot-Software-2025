@@ -1,7 +1,7 @@
 #include "DFPlayer.h"
 #include <Arduino.h>
 
-// Remplacez `Serial1` par l'UART matériel que vous souhaitez utiliser
+// Attention Serial0 ne doit pas être utilisé pour flasher
 #define DFPLAYER_SERIAL Serial0
 
 bool DFPlayer::setup() {
@@ -18,12 +18,12 @@ bool DFPlayer::setup() {
     }
 }
 
-void DFPlayer::Play(bool state, int track, int volume, int tempo) {
-    if (state) {
+// Vient scruter le timer principal pour eviter de jouer tous les sons en même temps
+void DFPlayer::Play(bool state, uint8_t track, uint8_t volume) {
+    if(state){
         player.volume(volume);
         player.play(track);
-        Serial.println("FILE : " + String(player.readCurrentFileNumber()));
-        delay(tempo);
+        //Serial.println("FILE : " + String(player.readCurrentFileNumber()));
     }
 }
 
