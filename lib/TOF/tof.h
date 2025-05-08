@@ -7,8 +7,6 @@
 #include "utils.h"
 
 const uint8_t sensorCount = 2; 
-const uint8_t xshutPins[sensorCount] = {ToF::XSHUT1, ToF::XSHUT2};
-const uint8_t readyPins[sensorCount] = {ToF::READY1, ToF::READY2};
 
 class TOF
 {

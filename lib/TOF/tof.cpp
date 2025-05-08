@@ -8,11 +8,11 @@ uint8_t TOF::reset(){
 
     // Disable/reset all sensors by driving their XSHUT pins low.
     for (uint8_t i = 0; i < sensorCount; i++){
-        pinMode(xshutPins[i], OUTPUT);
-        digitalWrite(xshutPins[i], LOW);
+        pinMode(ToF::XSHUT[i], OUTPUT);
+        digitalWrite(ToF::XSHUT[i], LOW);
 
         // Define ready pins
-        pinMode(readyPins[i], INPUT_PULLUP);
+        pinMode(ToF::READY[i], INPUT_PULLUP);
     }
 
     // Enable, initialize, and start each sensor, one by one.
@@ -20,7 +20,7 @@ uint8_t TOF::reset(){
         // Stop driving this sensor's XSHUT low. This should allow the carrier
         // board to pull it high. (We do NOT want to drive XSHUT high since it is
         // not level shifted.) Then wait a bit for the sensor to start up.
-        pinMode(xshutPins[i], INPUT);
+        pinMode(ToF::XSHUT[i], INPUT);
         delay(10);
         
 
@@ -97,7 +97,7 @@ uint16_t TOF::getDistance(uint8_t sensorIndex)
     }
     
     // Vérifier si le capteur est prêt en lisant le READY pin
-    if (digitalRead(readyPins[sensorIndex]) == HIGH) {
+    if (digitalRead(ToF::READY[sensorIndex]) == HIGH) {
         // Capteur prêt, lire la distance
         int distance = sensors[sensorIndex].readRangeContinuousMillimeters();
         

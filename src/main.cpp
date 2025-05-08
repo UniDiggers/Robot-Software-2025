@@ -10,7 +10,6 @@
 #include "servo.h"
 
 #include "wallpaper.h"
-#include "remote.h"
 
 #include "PAMIBOARD.h"
 #include "utils.h"
@@ -39,11 +38,7 @@ void fullstop(){
 }
 
 void refresh(){
-  screen.drawHome();
-  screen.tofDraw(tof.getDistance(0));
-  screen.timerDraw(globaltimer.getRemainingTime());
-  screen.teamDraw(team);
-  screen.update();
+  // a afficher tt les secondes
   SWITCH = false;
 }
 
@@ -54,62 +49,29 @@ void timer_switch(){
 
 void setup()
 {
-
   // Initialisation UART
   Serial.begin(115200);
-
-  // RemoteXY
-  RemoteXY_Init(); // Initialize RemoteXY library
 
   // Initialisation I2C
   Wire.begin(I2C::SDA, I2C::SCL); // I2C screen
   Wire.setClock(400000); // Set I2C clock to 400kHz
 
+  // Initialisation des boutons
   pinMode(STATE::TEAM, INPUT_PULLUP);
   pinMode(STATE::TIR, INPUT_PULLUP);
+
+  //Initialisation des périphériques
+  screen.setup(); // Setup screen
+  tof.setup(highSpeed); // Setup ToF
+  servo.setup(); // Setup servos  
+  player.setup();
+  //STATE = false;
+  //strategy.setup();
 
   // Initialisation du timer
   globaltimer.start();
   updatetimer.start();
 
-  // Initialisation du DFPlayer
-  bool STATE = player.setup();
-  STATE = false;
-
-  // Initialisation de l'écran
-  if (!screen.setup()){
-    Serial.println("Screen setup failed");
-    player.Play(STATE, SCREEN_NOK, VOLUME);
-  }
-
-  // Initialisation du capteur ToF
-  if (!tof.setup(highSpeed)){
-    Serial.println("TOF setup failed");
-    player.Play(STATE, TOF_NOK, VOLUME);
-  }
-  else
-    player.Play(STATE, TOF_OK, VOLUME);
-
-  // Initialisation de l'équipe
-  if (digitalRead(STATE::TEAM) == LOW){
-      team = 'b';
-      RemoteXY.strings_team = 1;
-      player.Play(STATE, TEAM_BLUE, VOLUME);
-  }
-  else if (digitalRead(STATE::TEAM) == HIGH){
-      team = 'y';
-      player.Play(STATE, TEAM_YELLOW, VOLUME);
-      RemoteXY.strings_team = 0;
-  }
-  else
-      Serial.println("Error: team selection failed");
-
-  // Musique
-  player.Play(STATE, CRAZY_FROG, VOLUME);
-  
-  servo.setup(); // Setup servos  
-
-  //strategy.setup();
 }
 
 void loop(){

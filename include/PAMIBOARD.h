@@ -21,6 +21,7 @@ namespace UART
         
         RX1 = 18,
         TX1 = 19;
+        
 }
 
 namespace I2C
@@ -37,7 +38,10 @@ namespace ToF
         READY1 = 10, // ready to make a mesure
         
         XSHUT2 = 48,
-        READY2 = 8; // ready to make a mesure
+        READY2 = 8, // ready to make a mesure
+
+        XSHUT[] = {XSHUT1, XSHUT2},
+        READY[] = {READY1, READY2};
 }
 
 namespace SERVOS

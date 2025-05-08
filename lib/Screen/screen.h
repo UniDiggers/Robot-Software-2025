@@ -1,29 +1,22 @@
+#pragma once
+
 #include <Wire.h>
-#include <Adafruit_GFX.h>
-#include <Adafruit_SSD1306.h>
+#include <U8g2lib.h>
 
 #include "PAMIBOARD.h"
 #include "wallpaper.h"
-#include "Timer.h"
 
-static const int OLED_RESET = -1;
-static const int ScreenWidth = 128;
-static const int ScreenHeight = 64;
-static const int ScreenAddr = 0x3C;
 
 class Screen
 {
 private:
-    int addr = ScreenAddr, width = ScreenWidth, height = ScreenHeight, resetPin = ScreenAddr;
-    Adafruit_SSD1306 display;
-
-
+    U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8g2 = U8G2_SSD1306_128X64_NONAME_F_HW_I2C(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
+    uint8_t ScreenWidth = 128;
+    uint8_t ScreenHeight = 64;
+    char ScreenAddr = 0x3C;
+    
 public:
-    Screen(int addr = ScreenAddr, int width = ScreenWidth, int height = ScreenHeight, int resetPin = OLED_RESET);
     bool setup();
-    void drawHome();
-    void tofDraw(int distance);
-    void timerDraw(int time);
-    void teamDraw(char team);
-    void update();
+    void displayBitmap(const uint8_t *bitmap);
+    
 };

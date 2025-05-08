@@ -1,90 +1,27 @@
 #include "screen.h"
 
-
-Screen::Screen(int addr, int width, int height, int resetPin)
-{
-    display = Adafruit_SSD1306(width, height, &Wire, resetPin);
+// Fonction pour afficher un bitmap sur l'écran
+// Ensure the u8g2 object is properly initialized
+void Screen::displayBitmap(const uint8_t *bitmap) {
+    u8g2.firstPage();
+    do {
+        u8g2.drawXBMP(0, 0, ScreenWidth, ScreenHeight, bitmap); // Affiche l'image à partir de (0, 0)
+    } while (u8g2.nextPage());
 }
 
-bool Screen::setup()
-{
-    if (!display.begin(SSD1306_SWITCHCAPVCC, addr))
-    {
-        Serial.println(F("SSD1306 allocation failed"));
-        return false;
+// Fonction d'initialisation de l'écran
+bool Screen::setup() {
+    if (!u8g2.begin()) { // Initialisation de l'écran
+        Serial.println("Screen not detected.");
+        return false; // Si l'écran n'est pas détecté, on retourne false
+    } else {
+        u8g2.clearBuffer(); // Efface le buffer
+        u8g2.setFont(u8g2_font_ncenB08_tr); // Définit une police (optionnel)
+        displayBitmap(home); // Affiche le bitmap
+        u8g2.sendBuffer(); // Envoie le contenu au buffer
+        return true;
     }
-
-    drawHome();
-    display.display();
-    return true;
 }
 
-void Screen::drawHome()
-{
-    display.clearDisplay();
-    display.drawBitmap(0, 0, home, 128, 64, 1);
-}
 
-void Screen::tofDraw(int distance)
-{
-    char strDistance[10];
-    sprintf(strDistance, "%d", distance);
-
-    if (distance == -1 || distance > 2000)
-        strcpy(strDistance, "OUT");
-
-
-    // Set text size, color, and location
-    display.setTextSize(0.5); // Draw 2X-scale text
-    display.setTextColor(SSD1306_BLACK);
-
-    //Display title
-    display.setCursor(15, 10);
-    display.println(F("Tof :"));
-
-    // Display distance
-    display.setCursor(15, 20);
-    display.println(F(strDistance));
-}
-
-void Screen::timerDraw(int time)
-{
-
-    // Set text size, color, and location
-    display.setTextSize(0.5); // Draw 2X-scale text
-    display.setTextColor(SSD1306_BLACK);
-
-    //Display title
-    display.setCursor(15, 40);
-    display.println(F("Timer :"));
-
-    // Display distance
-    display.setCursor(15, 50);
-    display.println(time);
-
-}
-
-void Screen::teamDraw(char team){
-    // Set text size, color, and location
-    display.setTextSize(0.5); // Draw 2X-scale text
-    display.setTextColor(SSD1306_BLACK);
-
-    //Display title
-    display.setCursor(40, 10);
-    display.println(F("Team :"));
-
-    // Display distance
-    display.setCursor(40, 20);
-    if(team == 'b')
-        display.println(F("Blue"));
-    else if(team == 'y')
-        display.println(F("Yellow"));
-    else
-        display.println(team);
-}
-
-void Screen::update()
-{
-    display.display();
-}
 
