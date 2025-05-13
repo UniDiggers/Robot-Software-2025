@@ -59,9 +59,9 @@ namespace SERVOS
 namespace RGB // wrong order with colors
 {
     constexpr uint8_t
-        RED = 11,
-        GREEN = 12,
-        BLUE = 13;
+        BLUE= 11,
+        RED = 12,
+        GREEN = 13;
 }
 
 namespace EYES

@@ -50,7 +50,12 @@ void timer_switch(){
 void setup()
 {
   // Initialisation UART
+  delay(1000);
   Serial.begin(115200);
+  Serial.setDebugOutput(true);
+  Serial.println("Starting...");
+  delay(1000);
+  //Probleme serial
 
   // Initialisation I2C
   Wire.begin(I2C::SDA, I2C::SCL); // I2C screen
@@ -69,8 +74,8 @@ void setup()
   //strategy.setup();
 
   // Initialisation du timer
-  globaltimer.start();
-  updatetimer.start();
+  //globaltimer.start();
+  //updatetimer.start();
 
 }
 
@@ -79,6 +84,6 @@ void loop(){
   // if(SWITCH){
   //   refresh();
   // }
-
+  Serial.println("loop");
   delay(1);
 }
