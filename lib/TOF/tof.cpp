@@ -93,20 +93,19 @@ uint16_t TOF::getDistance(uint8_t sensorIndex)
 {
     // Vérifier si l'index du capteur est valide
     if (sensorIndex >= sensorCount) {
+        Serial.println("Index de capteur invalide");
         return 0; // Index de capteur invalide
     }
+
+    // S'assurer que le capteur est en mode continu avant de lire la distance
+    sensors[sensorIndex].startContinuous();
+
+    uint16_t distance = sensors[sensorIndex].readRangeContinuousMillimeters();
     
-    // Vérifier si le capteur est prêt en lisant le READY pin
-    if (digitalRead(ToF::READY[sensorIndex]) == HIGH) {
-        // Capteur prêt, lire la distance
-        int distance = sensors[sensorIndex].readRangeContinuousMillimeters();
-        
-        if (sensors[sensorIndex].timeoutOccurred()) {
-            return 1; // Timeout détecté
-        }
-        
-        return distance;
+    if (sensors[sensorIndex].timeoutOccurred() || distance == 65535) {
+        Serial.println("Timeout détecté ou mesure invalide");
+        return 0; // Valeur d'erreur
     }
-    
-    return 2; // Capteur pas encore prêt
+
+    return distance;
 }

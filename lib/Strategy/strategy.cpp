@@ -1,26 +1,33 @@
 #include "Strategy.h"
 
 #include "strategies/strat.h"
+
 #include "servo.h"
+#include "screen.h"
 
 Strategy::Strategy() {}
 
 
 
-void Strategy::selectTeam()
+ void Strategy::selectTeam()
 {
-    if (digitalRead(STATE::TEAM) == LOW)
+    if (digitalRead(STATE::TEAM) == LOW){
         team = 'b';
-    else if (digitalRead(STATE::TEAM) == HIGH)
+        Serial.println("Team : Blue");
+    }
+    else if (digitalRead(STATE::TEAM) == HIGH){
         team = 'y';
-    else
+        Serial.println("Team : Yellow");
+    }
+    else{
         Serial.println("Error: team selection failed");
+    }
 }
 
 pamiID Strategy::selectCurrentPAMI(){    
     switch(mac_adress)
     {
-        case 79952397196012: // Real adress Rockstar (PCB V2)
+        case 224782015549120: // Real adress Rockstar (PCB V2)
             return rockstar;
         case 193885460049969: // Fake adress PAMI1
             return pami1;
@@ -28,7 +35,7 @@ pamiID Strategy::selectCurrentPAMI(){
             return pami2;
         case 193885460049971: // Fake adress PAMI3
             return pami3;
-        case 193885460049968: // Real adress (uint64_t format) test PAMI (modded)
+        case 193885460049968: // Fake adress PAMI4
             return the_original;
         default:
             Serial.println("PAMI UID Unknown.");
@@ -43,7 +50,9 @@ void Strategy::setup(){
 
     // Select current PAMI
     mac_adress = ESP.getEfuseMac();
+    Serial.println("PAMI UID : " + String(mac_adress));
     currentPAMI = selectCurrentPAMI();
+    Serial.println("Current PAMI : " + String(currentPAMI));
 
     // Init servo
     servo.setup();

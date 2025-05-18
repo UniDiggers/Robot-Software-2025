@@ -1,4 +1,3 @@
-#include <Wire.h>
 #include <Arduino.h>
 
 #include "Movement.h"
@@ -13,21 +12,21 @@
 
 #include "PAMIBOARD.h"
 #include "utils.h"
+#include <Wire.h>
 
 void fullstop();
 void refresh();
-void timer_switch();
 
 Screen screen;
 Movement movement;
 Strategy strategy;
 TOF tof;
 Timer globaltimer = Timer(&fullstop, 100, seconds);
-Timer updatetimer = Timer(&timer_switch, 1, seconds);
+Timer updatetimer = Timer(&refresh, 1, seconds);
 DFPlayer player;
 SERVO servo;
 
-bool SWITCH = false;
+
 char team;
 
 void fullstop(){
@@ -39,51 +38,43 @@ void fullstop(){
 
 void refresh(){
   // a afficher tt les secondes
-  SWITCH = false;
+  return;
 }
 
-void timer_switch(){
-  SWITCH = true;
-}
 
 
 void setup()
 {
   // Initialisation UART
-  delay(1000);
   Serial.begin(115200);
   Serial.setDebugOutput(true);
+
   Serial.println("Starting...");
-  delay(1000);
-  //Probleme serial
 
-  // Initialisation I2C
-  Wire.begin(I2C::SDA, I2C::SCL); // I2C screen
-  Wire.setClock(400000); // Set I2C clock to 400kHz
 
-  // Initialisation des boutons
-  pinMode(STATE::TEAM, INPUT_PULLUP);
-  pinMode(STATE::TIR, INPUT_PULLUP);
+  // Initialisation I2C - ordre très important ! 
+  screen.begin();
+  Wire.begin(I2C::SDA, I2C::SCL); 
 
   //Initialisation des périphériques
-  screen.setup(); // Setup screen
+  screen.setup('b'); // Setup screen
   tof.setup(highSpeed); // Setup ToF
-  servo.setup(); // Setup servos  
+  //servo.setup(); // Setup servos  
   player.setup();
-  //STATE = false;
-  //strategy.setup();
+  strategy.setup();
 
   // Initialisation du timer
-  //globaltimer.start();
-  //updatetimer.start();
+  globaltimer.start();
+
 
 }
 
 void loop(){
-  //SCREEN REFRESH - 1x/sec
-  // if(SWITCH){
-  //   refresh();
-  // }
-  Serial.println("loop");
-  delay(1);
+
+  int distance1 = tof.getDistance(1);
+  int distance2 = tof.getDistance(0);
+  uint8_t timer = globaltimer.getRemainingTime(seconds);
+  bool espnow = false;
+  bool tir = false;
+  screen.draw(timer, distance1, distance2, tir, espnow);
 }
