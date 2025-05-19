@@ -7,8 +7,10 @@
 #include "strategy.h"
 #include "DFPlayer.h"
 #include "servo.h"
+#include "led.h"
 
 #include "wallpaper.h"
+#include "pami.h"
 
 #include "PAMIBOARD.h"
 #include "utils.h"
@@ -49,19 +51,35 @@ void setup()
   Serial.begin(115200);
   Serial.setDebugOutput(true);
 
-  Serial.println("Starting...");
-
-
   // Initialisation I2C - ordre très important ! 
   screen.begin();
   Wire.begin(I2C::SDA, I2C::SCL); 
 
+  // Initialisation ESPNow
+  setupESPNow();
+
   //Initialisation des périphériques
-  screen.setup('b'); // Setup screen
+  screen.setup(incomming.team); // Setup screen
   tof.setup(highSpeed); // Setup ToF
-  //servo.setup(); // Setup servos  
   player.setup();
+  setup_LED(); 
   strategy.setup();
+
+  // Attente tirette
+  while(incomming.tir != true){
+    setLEDColor(Colors::RED);
+  }
+
+  // Tirette posée
+  setLEDColor(Colors::ORANGE);
+  
+  // Attente retirer tirette
+  while(incomming.tir == true){
+    setLEDColor(Colors::ORANGE);
+  }
+
+  // Tirette retirée
+  setLEDColor(Colors::GREEN);
 
   // Initialisation du timer
   globaltimer.start();

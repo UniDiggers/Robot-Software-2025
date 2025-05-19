@@ -16,11 +16,11 @@ namespace Steppers
 namespace UART
 {
     constexpr uint8_t
-        RX0 = 44,
-        TX0 = 43,
+        RX_0 = 44,
+        TX_0 = 43,
         
-        RX1 = 18,
-        TX1 = 19;
+        RX_1 = 18,
+        TX_1 = 19;
         
 }
 

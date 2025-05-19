@@ -2,7 +2,7 @@
 #include <Arduino.h>
 
 // Attention Serial0 ne doit pas être utilisé pour flasher
-#define DFPLAYER_SERIAL Serial0
+#define DFPLAYER_SERIAL Serial1
 
 bool DFPlayer::setup() {
     DFPLAYER_SERIAL.begin(9600);

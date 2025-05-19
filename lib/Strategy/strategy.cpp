@@ -7,23 +7,6 @@
 
 Strategy::Strategy() {}
 
-
-
- void Strategy::selectTeam()
-{
-    if (digitalRead(STATE::TEAM) == LOW){
-        team = 'b';
-        Serial.println("Team : Blue");
-    }
-    else if (digitalRead(STATE::TEAM) == HIGH){
-        team = 'y';
-        Serial.println("Team : Yellow");
-    }
-    else{
-        Serial.println("Error: team selection failed");
-    }
-}
-
 pamiID Strategy::selectCurrentPAMI(){    
     switch(mac_adress)
     {
@@ -44,9 +27,6 @@ pamiID Strategy::selectCurrentPAMI(){
 }
 
 void Strategy::setup(){
-
-    // Select team
-    selectTeam();
 
     // Select current PAMI
     mac_adress = ESP.getEfuseMac();
