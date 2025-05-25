@@ -11,17 +11,17 @@ struct RGBColor {
 
 // Définition de couleurs prédéfinies
 namespace Colors {
-    const RGBColor RED = {255, 0, 0};
-    const RGBColor GREEN = {0, 255, 0};
-    const RGBColor BLUE = {0, 0, 255};
-    const RGBColor WHITE = {255, 255, 255};
-    const RGBColor BLACK = {0, 0, 0};  // LED éteinte
-    const RGBColor YELLOW = {255, 255, 0};
-    const RGBColor CYAN = {0, 255, 255};
-    const RGBColor MAGENTA = {255, 0, 255};
-    const RGBColor ORANGE = {255, 128, 0};
-    const RGBColor PURPLE = {128, 0, 128};
-    const RGBColor PINK = {255, 192, 203};
+    const RGBColor _RED = {255, 0, 0};
+    const RGBColor _GREEN = {0, 255, 0};
+    const RGBColor _BLUE = {0, 0, 255};
+    const RGBColor _WHITE = {255, 255, 255};
+    const RGBColor _BLACK = {0, 0, 0};  // LED éteinte
+    const RGBColor _YELLOW = {255, 255, 0};
+    const RGBColor _CYAN = {0, 255, 255};
+    const RGBColor _MAGENTA = {255, 0, 255};
+    const RGBColor _ORANGE = {255, 128, 0};
+    const RGBColor _PURPLE = {128, 0, 128};
+    const RGBColor _PINK = {255, 192, 203};
 }
 
 

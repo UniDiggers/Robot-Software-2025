@@ -44,7 +44,7 @@ uint8_t TOF::reset(){
     // Abort if no sensors were found.
     if(check_sensors == 0){
         ERROR("No ToF sensor detected, can't avoid crash");
-        EXIT_FAILURE;
+        return 0; // No sensors initialized
     }
     return check_sensors; // Return the number of sensors initialized successfully
 }
@@ -58,6 +58,7 @@ bool TOF::setup(uint8_t mode){
     }
 
     for(uint8_t i = 0; i < sensorCount; i++){
+        sensors[i].startContinuous();
         switch(mode){
             case longRange:
                 sensors[i].setSignalRateLimit(mcps);
@@ -97,12 +98,9 @@ uint16_t TOF::getDistance(uint8_t sensorIndex)
         return 0; // Index de capteur invalide
     }
 
-    // S'assurer que le capteur est en mode continu avant de lire la distance
-    sensors[sensorIndex].startContinuous();
-
     uint16_t distance = sensors[sensorIndex].readRangeContinuousMillimeters();
     
-    if (sensors[sensorIndex].timeoutOccurred() || distance == 65535) {
+    if (sensors[sensorIndex].timeoutOccurred() || distance == 65535 || distance == 0) {
         Serial.println("Timeout détecté ou mesure invalide");
         return 0; // Valeur d'erreur
     }

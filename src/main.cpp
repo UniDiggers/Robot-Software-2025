@@ -27,7 +27,7 @@ Strategy strategy;
 TOF tof;
 Timer globaltimer = Timer(&fullstop, 85, seconds);
 Timer updatetimer = Timer(&refresh, 1, seconds);
-DFPlayer player;
+//DFPlayer player;
 SERVO servo;
 
 void fullstop(){
@@ -48,33 +48,32 @@ void setup()
 {
   // Initialisation UART
   Serial.begin(115200);
-  Serial.setDebugOutput(true);
-  delay(250);
+  //Serial.setDebugOutput(true);
   Serial.println("Starting...");
 
   // Initialisation I2C - ordre très important ! 
-  screen.begin();
   Wire.begin(I2C::SDA, I2C::SCL); 
-
+  
   if (TIR){
     // Initialisation ESPNow
     setupESPNow();
 
     //Initialisation des périphériques
+    screen.begin();
     screen.setup(incomming.team); // Setup screen
-    tof.setup(highSpeed); // Setup ToF
-    player.setup();
+    tof.setup(highAccuracy); // Setup ToF
+    //player.setup();
     setup_LED(); 
     strategy.setup();
 
     // Attente tirette
-    setLEDColor(Colors::RED); 
+    setLEDColor(Colors::_RED); 
     while(incomming.tir == false){  
       Serial.println("Waiting for tir");
     }
 
     // Tirette posée
-    setLEDColor(Colors::ORANGE);
+    setLEDColor(Colors::_ORANGE);
     
     // Attente retirer tirette
     while(incomming.tir == true){
@@ -83,14 +82,14 @@ void setup()
 
     // Tirette retirée
     Serial.println("Tir removed");
-    setLEDColor(Colors::GREEN);
+    setLEDColor(Colors::_GREEN);
   }
 
   // Initialisation du timer
   globaltimer.start();
 
   // Son
-  player.Play(true, 1, 20); // Joue le son de démarrage
+  //player.Play(true, 1, 20); // Joue le son de démarrage
   Serial.println("Setup complete");
 }
 
@@ -99,11 +98,11 @@ void loop(){
   int distance1 = tof.getDistance(1);
   int distance2 = tof.getDistance(0);
   uint8_t timer = globaltimer.getRemainingTime(seconds);
-  Serial.printf("%u", timer);
   bool espnow = true;
   bool tir = incomming.tir;
   char team = incomming.team;
   screen.draw(timer, distance1, distance2, tir, team, espnow); 
+  delay(50);
   
 
 

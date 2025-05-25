@@ -1,8 +1,12 @@
 #pragma once
 #include <Arduino.h>
-#include <U8g2lib.h>
+#include <Adafruit_GFX.h>
+#include <Adafruit_SSD1306.h>
 #include "PAMIBOARD.h"
 #include "wallpaper.h"
+
+#define SCREEN_WIDTH 128
+#define SCREEN_HEIGHT 64
 
 #define TOF0_X 29
 #define TOF0_Y 9
@@ -17,17 +21,16 @@
 #define ESPNOW_X 5
 #define ESPNOW_Y 9
 
-
 class Screen {
 public:
     Screen();
+    void begin();
     void setup(char team);
     void draw(uint8_t timer, int distance1, int distance2, bool tir, char team, bool espnow);
     void draw_team(char team);
-    void begin();
 
 private:
-    U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8g2;
+    Adafruit_SSD1306* display;
     void displayHomeBitmap();
     void draw_tof(int distance1, int distance2);
     void draw_espnow(bool espnow);
