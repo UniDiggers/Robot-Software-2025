@@ -5,7 +5,7 @@
 #define DFPLAYER_SERIAL Serial1
 
 bool DFPlayer::setup() {
-    DFPLAYER_SERIAL.begin(9600);
+    DFPLAYER_SERIAL.begin(9600, SERIAL_8N1, UART::RX_1, UART::TX_1); // RX, TX pins for DFPlayer Mini
 
     bool initialized = player.begin(DFPLAYER_SERIAL);
 

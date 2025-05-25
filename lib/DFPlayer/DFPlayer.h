@@ -4,6 +4,7 @@
 #include "utils.h"
 
 #include "DFRobotDFPlayerMini.h"
+#include "PAMIBOARD.h"
 
 #define BUSY 35
 #define VOLUME 30

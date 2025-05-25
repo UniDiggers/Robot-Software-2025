@@ -60,8 +60,9 @@ namespace RGB // wrong order with colors
 {
     constexpr uint8_t
         BLUE= 11,
-        RED = 12,
-        GREEN = 13;
+        GREEN = 13,
+        RED = 12;
+        
 }
 
 namespace EYES

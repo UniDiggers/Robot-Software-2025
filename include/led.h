@@ -1,6 +1,6 @@
 #include "PAMIBOARD.h"
 
-#define LED_COMMON_ANODE true  // true pour anode commune, false pour cathode commune
+#define LED_COMMON_ANODE false  // true pour anode commune, false pour cathode commune
 
 // Structure pour représenter une couleur RGB
 struct RGBColor {
@@ -19,7 +19,7 @@ namespace Colors {
     const RGBColor YELLOW = {255, 255, 0};
     const RGBColor CYAN = {0, 255, 255};
     const RGBColor MAGENTA = {255, 0, 255};
-    const RGBColor ORANGE = {255, 165, 0};
+    const RGBColor ORANGE = {255, 128, 0};
     const RGBColor PURPLE = {128, 0, 128};
     const RGBColor PINK = {255, 192, 203};
 }

@@ -22,7 +22,7 @@ class Screen {
 public:
     Screen();
     void setup(char team);
-    void draw(uint8_t timer, int distance1, int distance2, bool tir = false, bool espnow = false);
+    void draw(uint8_t timer, int distance1, int distance2, bool tir, char team, bool espnow);
     void draw_team(char team);
     void begin();
 

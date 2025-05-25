@@ -14,11 +14,12 @@ void Screen::setup(char team) {
     u8g2.sendBuffer();
 }
 
-void Screen::draw(uint8_t timer, int distance1, int distance2, bool tir, bool espnow) {
+void Screen::draw(uint8_t timer, int distance1, int distance2, bool tir, char team, bool espnow) {
     draw_tof(distance1, distance2);
     draw_espnow(espnow);
     draw_timer(timer);
     draw_tir(tir);
+    draw_team(team);
     u8g2.sendBuffer();
 }
 

@@ -2,6 +2,8 @@
 
 Movement::Movement()
 {
+    pinMode(Steppers::EN, OUTPUT);
+    digitalWrite(Steppers::EN, HIGH); // Disable the stepper drivers
     for (int i = 0; i < stepperNb; i++)
     {
         stepper[i].setSpeed(defaultSpeed);
@@ -28,6 +30,7 @@ void Movement::moveBy(int stepperIndex, int target, int speed, int maxSpeed, int
 
 void Movement::run()
 {
+    digitalWrite(Steppers::EN, LOW); // Enable the stepper drivers
     do{
         stepper[left].run();
         stepper[right].run();
