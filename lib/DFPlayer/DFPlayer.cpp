@@ -6,7 +6,8 @@
 
 bool DFPlayer::setup() {
 
-    bool initialized = player.begin(DFPLAYER_SERIAL, true, true); // true pour ACK, true pour reset
+    DFPLAYER_SERIAL.begin(9600);
+    bool initialized = player.begin(DFPLAYER_SERIAL); // true pour ACK, true pour reset
 
     if (initialized) {
         Serial.println("DFPlayer Mini initialized.");

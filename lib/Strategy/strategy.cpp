@@ -10,19 +10,20 @@ Strategy::Strategy() {}
 pamiID Strategy::selectCurrentPAMI(){    
     switch(mac_adress)
     {
-        case 224782015549120: // Real adress Rockstar (PCB V2)
+        
+        case 22510497189568: // Real adress Rockstar
             return rockstar;
-        case 22510497189568: // Real board
+        case 224782015549120: // Fake adress
             return pami1;
         case 193885460049970: // Fake adress PAMI2
             return pami2;
-        case 193885460049971: // Fake adress PAMI3
+        case 202791782993600: // PAMI3 NRV
             return pami3;
         case 193885460049968: // Fake adress PAMI4
-            return the_original;
+            return tempo;
         default:
             Serial.println("PAMI UID Unknown.");
-            return the_original; // Shouldn't happen but just in case
+            return tempo; // Shouldn't happen but just in case
     }
 }
 
@@ -49,25 +50,49 @@ void Strategy::execAction(Action action)
 {
     switch (action.type)
     {
-        case gotoAbsolute:
-            //movement.moveTo...
+        case MoveForward:
+            Serial.println("Moving Forward...");
+            movement.moveBy(left, action.param1, action.param2, action.param3, action.param4); 
+            movement.moveBy(right, action.param1, action.param2, action.param3, action.param4);
             break;
-        case gotoRelative:
-            //movement.moveBy...
+        case MoveBackward:
+            Serial.println("Moving Backward...");
+            movement.moveBy(left, action.param1, -action.param2, -action.param3, action.param4); 
+            movement.moveBy(right, action.param1, -action.param2, -action.param3, action.param4);
             break;
-        case rotateAbsolute:
-            //movement.rotateTo...
+        case CurveLeft:
+            Serial.println("Curving Left...");
+            movement.Curve(left, action.param1, action.param2, action.param3); 
             break;
-        case rotateLeft:
-            ///movement.rotateLeftBy...
-        case rotateRight:
-            //movement.rotateRightBy...
+        case CurveRight:
+            Serial.println("Curving Right...");
+            movement.Curve(right, action.param1, action.param2, action.param3); 
             break;
-        case raiseArm:
+        case RotationOnCenterLeft:  
+            movement.RotationOnCenter(left, action.param1, action.param2);
+            break;
+        case RotationOnCenterRight:
+            movement.RotationOnCenter(right, action.param1, action.param2);
+            break;
+        case RotationOnWheelLeft:
+            movement.RotationOnWheel(left, action.param1, action.param2);
+            break;
+        case RotationOnWheelRight:
+            movement.RotationOnWheel(right, action.param1, action.param2);
+            break;
+        case RaiseArm:
             Serial.println("Raising Arms...");
+            servo.moveServo(left, 90); // Assuming servo index 0 is for the arm
+            servo.moveServo(right, 90); // Assuming servo index 1 is for the other arm
             break;
-        case lowerArm:
+        case LowerArm:
             Serial.println("Lowering Arms...");
+            servo.moveServo(left, 0); // Assuming servo index 0 is for the arm
+            servo.moveServo(right, 0); // Assuming servo index 1 is for the other arm
+            break;
+        case Stop:
+            Serial.println("Stopping...");
+            fullstop();
             break;
         default:
             ERROR("wrong action type");

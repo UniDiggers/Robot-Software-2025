@@ -16,7 +16,7 @@
 #include "utils.h"
 #include <Wire.h>
 
-#define TIR false
+#define TIR true
 
 void fullstop();
 void refresh();
@@ -91,7 +91,7 @@ void setup()
   globaltimer.start();
 
   // Son
-  //player.Play(true, 1, 20); // Joue le son de démarrage
+  player.Play(true, 11, 30); // Joue le son de démarrage
   Serial.println("Setup complete");
 }
 

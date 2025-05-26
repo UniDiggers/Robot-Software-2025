@@ -16,8 +16,8 @@
 #define TIR_Y 61
 #define ESPNOW_X 5
 #define ESPNOW_Y 9
-#define NUMBER_X 41
-#define NUMBER_Y 36
+#define NUMBER_X 45
+#define NUMBER_Y 32
 
 
 class Screen {
