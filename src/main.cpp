@@ -16,7 +16,7 @@
 #include "utils.h"
 #include <Wire.h>
 
-#define TIR true
+#define TIR false
 
 void fullstop();
 void refresh();
@@ -27,7 +27,7 @@ Strategy strategy;
 TOF tof;
 Timer globaltimer = Timer(&fullstop, 85, seconds);
 Timer updatetimer = Timer(&refresh, 1, seconds);
-DFPlayer player;
+//DFPlayer player;
 SERVO servo;
 
 void fullstop(){
@@ -56,17 +56,17 @@ void setup()
   screen.begin();
   Wire.begin(I2C::SDA, I2C::SCL); 
 
-  if (TIR){
     // Initialisation ESPNow
     setupESPNow();
 
     //Initialisation des périphériques
     screen.setup(incomming.team); // Setup screen
     tof.setup(highSpeed); // Setup ToF
-    player.setup();
+    //player.setup();
     setup_LED(); 
     strategy.setup();
 
+    if (TIR){
     // Attente tirette
     setLEDColor(Colors::RED); 
     while(incomming.tir == false){  
@@ -90,7 +90,7 @@ void setup()
   globaltimer.start();
 
   // Son
-  player.Play(true, 1, 20); // Joue le son de démarrage
+  //player.Play(true, 1, 20); // Joue le son de démarrage
   Serial.println("Setup complete");
 }
 
