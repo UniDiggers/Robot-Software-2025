@@ -12,7 +12,7 @@ pamiID Strategy::selectCurrentPAMI(){
     {
         case 224782015549120: // Real adress Rockstar (PCB V2)
             return rockstar;
-        case 193885460049969: // Fake adress PAMI1
+        case 22510497189568: // Real board
             return pami1;
         case 193885460049970: // Fake adress PAMI2
             return pami2;
@@ -26,7 +26,7 @@ pamiID Strategy::selectCurrentPAMI(){
     }
 }
 
-void Strategy::setup(){
+uint64_t Strategy::setup(){
 
     // Select current PAMI
     mac_adress = ESP.getEfuseMac();
@@ -36,6 +36,9 @@ void Strategy::setup(){
 
     // Init servo
     servo.setup();
+
+    Serial.println("Strat initialized.");
+    return currentPAMI;
 }
 
 void Strategy::init(){

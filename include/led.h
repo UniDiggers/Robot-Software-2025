@@ -24,14 +24,6 @@ namespace Colors {
     const RGBColor PINK = {255, 192, 203};
 }
 
-
-// Configuration initiale des broches de la LED
-void setup_LED() {
-    pinMode(RGB::RED, OUTPUT);
-    pinMode(RGB::GREEN, OUTPUT);
-    pinMode(RGB::BLUE, OUTPUT);
-}
-
 // Définir la couleur de la LED
 void setLEDColor(const RGBColor& color) {
     // Pour une LED à anode commune, la logique est inversée (0 = allumé, 255 = éteint)
@@ -45,3 +37,17 @@ void setLEDColor(const RGBColor& color) {
         analogWrite(RGB::BLUE, color.b);
     }
 }
+
+// Configuration initiale des broches de la LED
+void setup_LED() {
+    pinMode(RGB::RED, OUTPUT);
+    pinMode(RGB::GREEN, OUTPUT);
+    pinMode(RGB::BLUE, OUTPUT);
+
+    // Initialiser la LED à éteinte
+    setLEDColor(Colors::BLACK);
+
+    Serial.println("LED setup complete");
+}
+
+

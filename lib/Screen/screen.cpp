@@ -6,21 +6,31 @@ void Screen::begin() {
     u8g2.begin();
 }
 
-void Screen::setup(char team) {
+void Screen::setup(uint8_t number, char team) {
     u8g2.clearBuffer();
     u8g2.setFont(u8g2_font_5x7_tr);
     displayHomeBitmap();
     draw_team(team);
+    draw_number(number);
     u8g2.sendBuffer();
+    Serial.println("Screen initialized.");
 }
 
-void Screen::draw(uint8_t timer, int distance1, int distance2, bool tir, char team, bool espnow) {
+void Screen::draw(uint8_t timer, int distance1, int distance2, bool tir, char team){
     draw_tof(distance1, distance2);
-    draw_espnow(espnow);
     draw_timer(timer);
     draw_tir(tir);
     draw_team(team);
     u8g2.sendBuffer();
+}
+
+void Screen::draw_number(uint8_t number){
+    u8g2.setDrawColor(0);
+    u8g2.drawBox(NUMBER_X, NUMBER_Y - 8, 28, 10);
+    u8g2.setDrawColor(1);
+    u8g2.setFont(u8g2_font_5x7_tr);
+    u8g2.setCursor(NUMBER_X, NUMBER_Y);
+    u8g2.print(number);
 }
 
 void Screen::draw_team(char team) {
@@ -66,14 +76,6 @@ void Screen::draw_tof(int distance1, int distance2) {
     }
 }
 
-void Screen::draw_espnow(bool espnow) {
-    u8g2.setDrawColor(1);
-    u8g2.setFont(u8g2_font_5x7_tr);
-    if(!espnow) {
-        u8g2.setCursor(ESPNOW_X, ESPNOW_Y);
-        u8g2.print("/");
-    }
-}
 
 void Screen::draw_timer(int timer) {
     u8g2.setDrawColor(0);

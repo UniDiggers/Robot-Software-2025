@@ -2,15 +2,14 @@
 #include <Arduino.h>
 
 // Attention Serial0 ne doit pas être utilisé pour flasher
-#define DFPLAYER_SERIAL Serial1
+#define DFPLAYER_SERIAL Serial0
 
 bool DFPlayer::setup() {
-    DFPLAYER_SERIAL.begin(9600, SERIAL_8N1, UART::RX_1, UART::TX_1); // RX, TX pins for DFPlayer Mini
 
-    bool initialized = player.begin(DFPLAYER_SERIAL);
+    bool initialized = player.begin(DFPLAYER_SERIAL, true, true); // true pour ACK, true pour reset
 
     if (initialized) {
-        Serial.println("DFPlayer Mini initialized");
+        Serial.println("DFPlayer Mini initialized.");
         return true;
     } else {
         Serial.println("Connecting to DFPlayer Mini failed!");

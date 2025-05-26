@@ -26,9 +26,8 @@ private:
     
 public:
     Strategy();
-    void selectTeam();
     void init();
-    void setup();
+    uint64_t setup();
     void game();
     void fullstop();
     void execAction(Action action);

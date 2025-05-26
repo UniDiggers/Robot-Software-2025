@@ -54,6 +54,7 @@ uint8_t TOF::reset(){
 bool TOF::setup(uint8_t mode){
 
     if (!reset()){
+        ERROR("Failed to reset TOF sensors");
         return false;
     }
 
@@ -86,6 +87,7 @@ bool TOF::setup(uint8_t mode){
                 return false;
         }
     }
+    Serial.println("TOF sensors configured with mode: " + String(mode));
     return true;
 }
 

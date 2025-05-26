@@ -16,13 +16,15 @@
 #define TIR_Y 61
 #define ESPNOW_X 5
 #define ESPNOW_Y 9
+#define NUMBER_X 41
+#define NUMBER_Y 36
 
 
 class Screen {
 public:
     Screen();
-    void setup(char team);
-    void draw(uint8_t timer, int distance1, int distance2, bool tir, char team, bool espnow);
+    void setup(uint8_t number, char team);
+    void draw(uint8_t timer, int distance1, int distance2, bool tir, char team);
     void draw_team(char team);
     void begin();
 
@@ -30,7 +32,7 @@ private:
     U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8g2;
     void displayHomeBitmap();
     void draw_tof(int distance1, int distance2);
-    void draw_espnow(bool espnow);
     void draw_timer(int timer);
     void draw_tir(bool tir);
+    void draw_number(uint8_t number);
 };

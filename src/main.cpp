@@ -27,7 +27,7 @@ Strategy strategy;
 TOF tof;
 Timer globaltimer = Timer(&fullstop, 85, seconds);
 Timer updatetimer = Timer(&refresh, 1, seconds);
-//DFPlayer player;
+DFPlayer player;
 SERVO servo;
 
 void fullstop(){
@@ -60,11 +60,12 @@ void setup()
     setupESPNow();
 
     //Initialisation des périphériques
-    screen.setup(incomming.team); // Setup screen
+    uint64_t number = strategy.setup();
+    screen.setup(number, incomming.team); // Setup screen
     tof.setup(highSpeed); // Setup ToF
-    //player.setup();
+    player.setup();
     setup_LED(); 
-    strategy.setup();
+    
 
     if (TIR){
     // Attente tirette
@@ -99,11 +100,9 @@ void loop(){
   int distance1 = tof.getDistance(1);
   int distance2 = tof.getDistance(0);
   uint8_t timer = globaltimer.getRemainingTime(seconds);
-  Serial.printf("%u", timer);
-  bool espnow = true;
   bool tir = incomming.tir;
   char team = incomming.team;
-  screen.draw(timer, distance1, distance2, tir, team, espnow); 
+  screen.draw(timer, distance1, distance2, tir, team); 
   
 
 
