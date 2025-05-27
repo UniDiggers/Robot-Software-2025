@@ -3,7 +3,7 @@
 #include "Movement.h"
 #include "screen.h"
 #include "tof.h"
-#include "timer.h"
+#include "Timer.h"
 #include "strategy.h"
 #include "DFPlayer.h"
 #include "servo.h"
@@ -16,95 +16,79 @@
 #include "utils.h"
 #include <Wire.h>
 
-#define TIR false
+// --- Draft stuff ---
+const bool debug = true;
 
+// --- Proto ---
 void fullstop();
 void refresh();
 
+// --- Objects ---
 Screen screen;
-Movement movement;
 Strategy strategy;
 TOF tof;
-Timer globaltimer = Timer(&fullstop, 85, seconds);
-Timer updatetimer = Timer(&refresh, 1, seconds);
+Timer globaltimer(&fullstop, 85, seconds), updatetimer(&refresh, 1, seconds);
 DFPlayer player;
 SERVO servo;
 
-void fullstop(){
-    //strategy.fullstop();
+void fullstop()
+{
     updatetimer.stop();
     globaltimer.stop();
-
+    strategy.fullstop();
 }
 
-void refresh(){
-  // a afficher tt les secondes
-  return;
+void refresh()
+{
+    return;
 }
-
-
 
 void setup()
 {
-  // Initialisation UART
-  Serial.begin(115200);
-  Serial.setDebugOutput(true);
-  delay(250);
-  Serial.println("Starting...");
+    Serial.begin(115200);
+    Serial.println("Starting...");
 
-  // Initialisation I2C - ordre très important ! 
-  screen.begin();
-  Wire.begin(I2C::SDA, I2C::SCL); 
+    screen.begin(); // Screen must be setup before screen
+    
+    Wire.begin(I2C::SDA, I2C::SCL);
 
-    // Initialisation ESPNow
-    setupESPNow();
+    setupESPNow(); // Prepare communication
 
-    //Initialisation des périphériques
-    uint64_t number = strategy.setup();
-    screen.setup(number, incomming.team); // Setup screen
-    tof.setup(highSpeed); // Setup ToF
+    int id = strategy.setup();
+
+    screen.setup(id, comm.team);
+    
+    tof.setup(highSpeed);
     player.setup();
-    setup_LED(); 
-    
 
-    if (TIR){
-    // Attente tirette
-    setLEDColor(Colors::RED); 
-    while(incomming.tir == false){  
-      //Serial.println("Waiting for tir");
+    setup_LED();
+
+    if (!debug)
+    {
+        using namespace Colors;
+        
+        setLEDColor(RED);
+        while (!comm.tir)
+        {
+            DEBUG("Waiting for tirette");
+        }
+
+        setLEDColor(ORANGE);
+        while (comm.tir)
+        {
+            DEBUG("Waiting for tirette removal");
+        }
+
+        setLEDColor(GREEN);
     }
 
-    // Tirette posée
-    setLEDColor(Colors::ORANGE);
-    
-    // Attente retirer tirette
-    while(incomming.tir == true){
-      //Serial.println("Waiting for tir to be removed");
-    }
+    globaltimer.start(); // Strating the waiting timer
 
-    // Tirette retirée
-    Serial.println("Tir removed");
-    setLEDColor(Colors::GREEN);
-  }
-
-  // Initialisation du timer
-  globaltimer.start();
-
-  // Son
-  player.Play(true, CRAZY_FROG, 30); // Joue le son de démarrage
-  Serial.println("Setup complete");
-  strategy.game(); // Démarre le jeu
+    player.Play(true, CRAZY_FROG, 30); // Play specified track
 }
 
-void loop(){
-
-  int distance1 = tof.getDistance(1);
-  int distance2 = tof.getDistance(0);
-  uint8_t timer = globaltimer.getRemainingTime(seconds);
-  bool tir = incomming.tir;
-  char team = incomming.team;
-  screen.draw(timer, distance1, distance2, tir, team); 
-  
-
-
+void loop()
+{
+    strategy.game();
+    DEBUG("End loop");
 }

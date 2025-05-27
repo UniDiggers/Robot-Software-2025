@@ -1,4 +1,4 @@
-#include "Strategy.h"
+#include "strategy.h"
 
 #include "strategies/strat.h"
 
@@ -27,7 +27,7 @@ pamiID Strategy::selectCurrentPAMI(){
     }
 }
 
-uint64_t Strategy::setup(){
+int Strategy::setup(){
 
     // Select current PAMI
     mac_adress = ESP.getEfuseMac();
@@ -51,34 +51,41 @@ void Strategy::execAction(Action action)
     switch (action.type)
     {
         case MoveForward:
-            Serial.println("Moving Forward...");
             movement.moveBy(left, action.param1, action.param2, action.param3, action.param4); 
             movement.moveBy(right, action.param1, action.param2, action.param3, action.param4);
+            movement.run();
             break;
         case MoveBackward:
             Serial.println("Moving Backward...");
             movement.moveBy(left, action.param1, -action.param2, -action.param3, action.param4); 
             movement.moveBy(right, action.param1, -action.param2, -action.param3, action.param4);
+            movement.run();
             break;
         case CurveLeft:
             Serial.println("Curving Left...");
             movement.Curve(left, action.param1, action.param2, action.param3); 
+            movement.run();
             break;
         case CurveRight:
             Serial.println("Curving Right...");
             movement.Curve(right, action.param1, action.param2, action.param3); 
+            movement.run();
             break;
         case RotationOnCenterLeft:  
             movement.RotationOnCenter(left, action.param1, action.param2);
+            movement.run();
             break;
         case RotationOnCenterRight:
             movement.RotationOnCenter(right, action.param1, action.param2);
+            movement.run();
             break;
         case RotationOnWheelLeft:
             movement.RotationOnWheel(left, action.param1, action.param2);
+            movement.run();
             break;
         case RotationOnWheelRight:
             movement.RotationOnWheel(right, action.param1, action.param2);
+            movement.run();
             break;
         case RaiseArm:
             Serial.println("Raising Arms...");
@@ -98,6 +105,8 @@ void Strategy::execAction(Action action)
             ERROR("wrong action type");
             break;
     }
+
+
 }
 
 void Strategy::game()
@@ -113,4 +122,5 @@ void Strategy::game()
 void Strategy::fullstop()
 {
     movement.fullstop();
+    for(;;);
 }

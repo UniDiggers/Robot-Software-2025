@@ -10,7 +10,7 @@
 #include "Movement.h"
 #include "Timer.h"
 
-#include "Servo.h"
+#include "servo.h"
 
 static const int DEFAULT_GAME_DURATION = 100;
 
@@ -27,7 +27,7 @@ private:
 public:
     Strategy();
     void init();
-    uint64_t setup();
+    int setup();
     void game();
     void fullstop();
     void execAction(Action action);

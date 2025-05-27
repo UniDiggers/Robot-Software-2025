@@ -10,6 +10,7 @@ Movement::Movement()
         stepper[i].setMaxSpeed(defaultSpeed);
         stepper[i].setAcceleration(defaultAccel);
     }
+    stepper[right].setPinsInverted(true);
 }
 
 void Movement::setParameters(int stepperIndex, int speed, int maxSpeed, int accel)
@@ -20,14 +21,11 @@ void Movement::setParameters(int stepperIndex, int speed, int maxSpeed, int acce
     stepper[stepperIndex].setAcceleration(accel);
 }
 
-void Movement::moveBy(int target, int speed, int maxSpeed, int accel)
+void Movement::moveBy(int index, int target, int speed, int maxSpeed, int accel)
 {
-    for 
-    setParameters(stepperIndex, speed, maxSpeed, accel);
-    stepper[stepperIndex].move(target/mmPerStep);
-    stepper[stepperIndex].setCurrentPosition(0);
-    Serial.println("mm :" + String(target) + "\nsteps : " + String(target/mmPerStep));
-    run();
+    setParameters(index, speed, maxSpeed, accel);
+    stepper[index].setCurrentPosition(0);
+    stepper[index].move(target/mmPerStep);
 }
 
 

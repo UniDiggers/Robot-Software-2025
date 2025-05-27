@@ -4,16 +4,14 @@
 
 #include "utils.h"
 
-struct commMessage {
+struct {
     bool tir;
     char team;
-};
-
-commMessage incomming;
+} comm;
 
 void onDataRecv(const uint8_t *mac, const uint8_t *incomingData, int len)
 {
-    memcpy(&incomming, incomingData, sizeof(incomming));
+    memcpy(&comm, incomingData, sizeof(comm));
 }
 
 void setupESPNow()
@@ -27,7 +25,7 @@ void setupESPNow()
 
     esp_now_register_recv_cb(onDataRecv);
 
-    incomming = {
+    comm = {
         .tir = false,
         .team = 'b'
     };

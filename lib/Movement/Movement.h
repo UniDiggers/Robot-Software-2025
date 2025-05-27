@@ -19,7 +19,7 @@ enum direction
 class Movement
 {
 private:
-    float wheelDiameter = 64.5; // mm
+    float wheelDiameter = 70; // mm
     int baseSteps = 200;
     int microstepping = 8; // 8th step on TMC2209
     float wheelPerimeter = PI * wheelDiameter;
@@ -34,7 +34,7 @@ private:
 public:
     Movement();
     void setParameters(int stepperIndex, int speed, int maxSpeed, int accel);
-    void moveBy(int stepperIndex, int target, int speed, int maxSpeed, int accel);
+    void moveBy(int index, int target, int speed, int maxSpeed, int accel);
     void run();
     void SetSpeed(int stepperIndex, int speed, int maxSpeed, int accel);
     void fullstop();
