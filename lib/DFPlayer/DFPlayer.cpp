@@ -21,9 +21,10 @@ bool DFPlayer::setup() {
 // Vient scruter le timer principal pour eviter de jouer tous les sons en même temps
 void DFPlayer::Play(bool state, uint8_t track, uint8_t volume) {
     if(state){
-        player.volume(volume);
-        player.play(track);
-        //Serial.println("FILE : " + String(player.readCurrentFileNumber()));
+        player.volume(volume);  // Set the volume level
+        player.play(track);     // Play the specified track from SD card
+        Serial.println("Playing track: " + String(track) + " at volume: " + String(volume));
+        Serial.println("Current file number: " + String(player.readCurrentFileNumber()));
     }
 }
 

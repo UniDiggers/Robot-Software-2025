@@ -13,9 +13,9 @@ pamiID Strategy::selectCurrentPAMI(){
         
         case 22510497189568: // Real adress Rockstar
             return rockstar;
-        case 224782015549120: // Fake adress
+        case 185199596949184: // PAMI1 BLEU
             return pami1;
-        case 193885460049970: // Fake adress PAMI2
+        case 224782015549120: // PAMI2 BLEU
             return pami2;
         case 202791782993600: // PAMI3 NRV
             return pami3;

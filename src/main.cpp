@@ -16,7 +16,7 @@
 #include "utils.h"
 #include <Wire.h>
 
-#define TIR true
+#define TIR false
 
 void fullstop();
 void refresh();
@@ -71,7 +71,7 @@ void setup()
     // Attente tirette
     setLEDColor(Colors::RED); 
     while(incomming.tir == false){  
-      Serial.println("Waiting for tir");
+      //Serial.println("Waiting for tir");
     }
 
     // Tirette posée
@@ -79,7 +79,7 @@ void setup()
     
     // Attente retirer tirette
     while(incomming.tir == true){
-      Serial.println("Waiting for tir to be removed");
+      //Serial.println("Waiting for tir to be removed");
     }
 
     // Tirette retirée
@@ -91,7 +91,7 @@ void setup()
   globaltimer.start();
 
   // Son
-  player.Play(true, 11, 30); // Joue le son de démarrage
+  player.Play(true, CRAZY_FROG, 30); // Joue le son de démarrage
   Serial.println("Setup complete");
 }
 
