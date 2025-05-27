@@ -14,17 +14,20 @@ Movement::Movement()
 
 void Movement::setParameters(int stepperIndex, int speed, int maxSpeed, int accel)
 {
+    digitalWrite(Steppers::EN, LOW); // Enable the stepper drivers
     stepper[stepperIndex].setSpeed(speed);
     stepper[stepperIndex].setMaxSpeed(maxSpeed);
     stepper[stepperIndex].setAcceleration(accel);
 }
 
-void Movement::moveBy(int stepperIndex, int target, int speed, int maxSpeed, int accel)
+void Movement::moveBy(int target, int speed, int maxSpeed, int accel)
 {
+    for 
     setParameters(stepperIndex, speed, maxSpeed, accel);
     stepper[stepperIndex].move(target/mmPerStep);
     stepper[stepperIndex].setCurrentPosition(0);
     Serial.println("mm :" + String(target) + "\nsteps : " + String(target/mmPerStep));
+    run();
 }
 
 
@@ -34,7 +37,7 @@ void Movement::run()
     do{
         stepper[left].run();
         stepper[right].run();
-    } while (stepper[left].run() || stepper[right].run());
+    } while (stepper[left].isRunning() || stepper[right].isRunning());
 }
 
 void Movement::SetSpeed(int stepperIndex, int speed, int maxSpeed, int accel){

@@ -8,7 +8,9 @@ using namespace std;
 static const int pamiNb = 5;
 
 vector<Action> _rockstar = {
-    Action(LowerArm),
+    Action(MoveForward, 5000, 500, 500, 500),
+    
+
     
 };
 

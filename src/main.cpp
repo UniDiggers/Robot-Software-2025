@@ -93,6 +93,7 @@ void setup()
   // Son
   player.Play(true, CRAZY_FROG, 30); // Joue le son de démarrage
   Serial.println("Setup complete");
+  strategy.game(); // Démarre le jeu
 }
 
 void loop(){
