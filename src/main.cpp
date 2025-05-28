@@ -17,7 +17,7 @@
 #include <Wire.h>
 
 // --- Draft stuff ---
-const bool debug = true;
+const bool debug = false;
 
 // --- Proto ---
 void fullstop();
@@ -68,7 +68,7 @@ void setup()
         using namespace Colors;
         
         setLEDColor(RED);
-        while (!comm.tir)
+        while (comm.tir == false)
         {
             DEBUG("Waiting for tirette");
         }
@@ -89,6 +89,6 @@ void setup()
 
 void loop()
 {
-    strategy.game();
+    //strategy.game();
     DEBUG("End loop");
 }

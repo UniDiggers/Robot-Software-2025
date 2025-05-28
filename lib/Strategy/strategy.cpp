@@ -101,6 +101,10 @@ void Strategy::execAction(Action action)
             Serial.println("Stopping...");
             fullstop();
             break;
+        case Wait:
+            Serial.println("Waiting...");
+            delay(action.param1); // Wait for a specified time
+            break;
         default:
             ERROR("wrong action type");
             break;

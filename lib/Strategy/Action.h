@@ -14,6 +14,7 @@ enum ActionType
     LowerArm,
     Stop,
     Sound,
+    Wait,
 };
 
 enum pamiID {
