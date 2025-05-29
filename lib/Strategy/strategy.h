@@ -8,7 +8,6 @@
 #include "Action.h"
 
 #include "Movement.h"
-#include "Timer.h"
 
 #include "servo.h"
 
@@ -31,4 +30,7 @@ public:
     void game();
     void fullstop();
     void execAction(Action action);
+    void timer();
+    void IRAM_ATTR onTimer();
+    int getElapsedTime();
 };

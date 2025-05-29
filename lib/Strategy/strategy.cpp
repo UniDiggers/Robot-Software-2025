@@ -5,6 +5,10 @@
 #include "servo.h"
 #include "screen.h"
 
+#define TIME_START 0
+#define count 15 // Timer count in seconds
+hw_timer_t *Timer1 = NULL;
+
 Strategy::Strategy() {}
 
 pamiID Strategy::selectCurrentPAMI(char team){    
@@ -47,8 +51,22 @@ pamiID Strategy::selectCurrentPAMI(char team){
     }
 }
 
-int Strategy::setup(char team){
+void Strategy::fullstop()
+{
+    movement.fullstop();
+    Serial.println("Full stop called, stopping all actions.");
+}
 
+// Static pointer to access instance from static method
+static Strategy* instance = nullptr;
+
+// Static callback for timer
+static void IRAM_ATTR onTimerStatic() {
+    if (instance)
+        instance->fullstop();
+}
+
+int Strategy::setup(char team){
     // Select current PAMI
     mac_adress = ESP.getEfuseMac();
     Serial.println("PAMI UID : " + String(mac_adress));
@@ -60,10 +78,22 @@ int Strategy::setup(char team){
 
     Serial.println("Strat initialized.");
     return currentPAMI;
-}
+} // Added missing closing bracket
 
-void Strategy::init(){
-    //init placement
+void Strategy::timer(){
+    // Save instance pointer for the static callback
+    instance = this;
+    Timer1 = timerBegin(0, 80, true);
+    timerAttachInterrupt(Timer1, &onTimerStatic, true);
+    timerAlarmWrite(Timer1, count * 1000000, false);
+    yield(); // Allow other tasks to run
+    timerAlarmEnable(Timer1); // Don't forget to enable the timer
+}
+int Strategy::getElapsedTime(){
+    // Get the elapsed time since the timer started
+    int elapsedTime = timerRead(Timer1) / 1000000; // Convert to seconds
+    //Serial.println("Elapsed Time: " + String(elapsedTime) + " seconds");
+    return elapsedTime;
 }
 
 void Strategy::execAction(Action action)
@@ -77,8 +107,8 @@ void Strategy::execAction(Action action)
             break;
         case MoveBackward:
             Serial.println("Moving Backward...");
-            movement.moveBy(left, action.param1, -action.param2, -action.param3, action.param4); 
-            movement.moveBy(right, action.param1, -action.param2, -action.param3, action.param4);
+            movement.moveBy(left, action.param1, action.param2, action.param3, action.param4); 
+            movement.moveBy(right, action.param1, action.param2, action.param3, action.param4);
             movement.run();
             break;
         case CurveLeft:
@@ -127,12 +157,12 @@ void Strategy::execAction(Action action)
             break;
         case Party:
             while(true){
-            servo.moveServo(left, 0); // Assuming servo index 0 is for the arm
-            servo.moveServo(right, 0); // Assuming servo index 1 is for the other arm
-            delay(1500);
-            servo.moveServo(left, 90); // Assuming servo index 0 is for the arm
-            servo.moveServo(right, 90); // Assuming servo index 1 is for the other arm
-            delay(1500);
+                servo.moveServo(left, 0); 
+                servo.moveServo(right, 0); 
+                delay(1500);
+                servo.moveServo(left, 90);
+                servo.moveServo(right, 90); 
+                delay(1500);
             }
         default:
             ERROR("wrong action type");
@@ -144,18 +174,33 @@ void Strategy::execAction(Action action)
 
 void Strategy::game()
 {
-    for (const auto& action : actions[currentPAMI])
-    {
-        execAction(action);
+    // Launch timer
+    timer();
+
+    int elapsedTime = getElapsedTime();
+    
+    while(elapsedTime < TIME_START){
+        elapsedTime = getElapsedTime();
+        Serial.println("Waiting for start... Elapsed time: " + String(elapsedTime) + " seconds");
+    }
+
+    if(elapsedTime >= TIME_START){
+        for (const auto& action : actions[currentPAMI])
+        {
+            execAction(action);
+        }
     }
 
     fullstop();
+    while(true){
+        servo.moveServo(left, 0); // Assuming servo index 0 is for the arm
+        servo.moveServo(right, 0); // Assuming servo index 1 is for the other arm
+        delay(1500);
+        servo.moveServo(left, 90); // Assuming servo index 0 is for the arm
+        servo.moveServo(right, 90); // Assuming servo index 1 is for the other arm
+        delay(1500);
+    }
 }
 
 
 
-void Strategy::fullstop()
-{
-    movement.fullstop();
-    for(;;);
-}

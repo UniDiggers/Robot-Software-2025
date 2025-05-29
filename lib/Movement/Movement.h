@@ -7,7 +7,7 @@
 #include "tof.h"
 
 
-#define OBSTACLE_DISTANCE 200 // mm
+#define OBSTACLE_DISTANCE 130 // mm
 
 using namespace Steppers;
 
