@@ -17,26 +17,27 @@
 #include <Wire.h>
 
 // --- Draft stuff ---
-const bool debug = false;
+#define TIR true
 
 // --- Proto ---
-void fullstop();
 void refresh();
+
+
+
 
 // --- Objects ---
 Screen screen;
 Strategy strategy;
-TOF tof;
-Timer globaltimer(&fullstop, 85, seconds), updatetimer(&refresh, 1, seconds);
+TOF& tof = TOF::getInstance();
 DFPlayer player;
 SERVO servo;
 
-void fullstop()
-{
-    updatetimer.stop();
-    globaltimer.stop();
-    strategy.fullstop();
-}
+// // Timer 
+// hw_timer_t *Timer1 = NULL;
+
+// void IRAM_ATTR onTimer(){
+//     strategy.fullstop();
+// }
 
 void refresh()
 {
@@ -45,16 +46,20 @@ void refresh()
 
 void setup()
 {
+
     Serial.begin(115200);
     Serial.println("Starting...");
 
-    screen.begin(); // Screen must be setup before screen
-    
-    Wire.begin(I2C::SDA, I2C::SCL);
-
     setupESPNow(); // Prepare communication
 
-    int id = strategy.setup();
+    screen.begin(); // Screen must be setup before screen
+    
+    // Timer1 = timerBegin(0, 80, true);
+    // timerAttachInterrupt(Timer1, &onTimer, true);
+    // timerAlarmWrite(Timer1, 100 * 1000000, true);
+    
+    delay(1000);
+    int id = strategy.setup(comm.team);
 
     screen.setup(id, comm.team);
     
@@ -63,32 +68,35 @@ void setup()
 
     setup_LED();
 
-    if (!debug)
+    if (TIR)
     {
         using namespace Colors;
         
         setLEDColor(RED);
+        DEBUG("Waiting for tirette");
         while (comm.tir == false)
         {
-            DEBUG("Waiting for tirette");
+            Serial.println("Waiting for tirette...");
         }
 
         setLEDColor(ORANGE);
+        DEBUG("Waiting for tirette removal");
         while (comm.tir)
         {
-            DEBUG("Waiting for tirette removal");
+            Serial.println("Waiting for removal");
         }
 
         setLEDColor(GREEN);
     }
 
-    globaltimer.start(); // Strating the waiting timer
+    //timerAlarmEnable(Timer1); //Just Enable
 
-    player.Play(true, CRAZY_FROG, 30); // Play specified track
+    //player.Play(true, CRAZY_FROG, 30); // Play specified track
 }
 
 void loop()
 {
-    //strategy.game();
+    disableESPNow(); 
+    strategy.game();
     DEBUG("End loop");
 }

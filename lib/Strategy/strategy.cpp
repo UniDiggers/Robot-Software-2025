@@ -7,32 +7,52 @@
 
 Strategy::Strategy() {}
 
-pamiID Strategy::selectCurrentPAMI(){    
+pamiID Strategy::selectCurrentPAMI(char team){    
     switch(mac_adress)
     {
-        
         case 22510497189568: // Real adress Rockstar
-            return rockstar;
-        case 185199596949184: // PAMI1 BLEU
-            return pami1;
-        case 224782015549120: // PAMI2 BLEU
-            return pami2;
+            if(team == 'y') {
+                return rockstar_y;
+            } else {
+                return rockstar_b;
+            }
+            return rockstar_y;
+        case 106034759749312: // PAMI1 BLEU
+            if(team == 'y') {
+                return pami1_y;
+            } else {
+                return pami1_b;
+            }
+        case 185199596949184: // PAMI2 BLEU
+            if(team == 'y') {
+                return pami2_y;
+            } else {
+                return pami2_b;
+            }
         case 202791782993600: // PAMI3 NRV
-            return pami3;
-        case 193885460049968: // Fake adress PAMI4
-            return tempo;
+            if(team == 'y') {
+                return pami3_y;
+            } else {
+                return pami3_b;
+            }
+        // case 224782015549120: // Carte HS
+        //     if(team == 'y') {
+        //         return temp_y;
+        //     } else {
+        //         return temp_b;
+        //     }
         default:
             Serial.println("PAMI UID Unknown.");
-            return tempo; // Shouldn't happen but just in case
+            return temp; // Shouldn't happen but just in case
     }
 }
 
-int Strategy::setup(){
+int Strategy::setup(char team){
 
     // Select current PAMI
     mac_adress = ESP.getEfuseMac();
     Serial.println("PAMI UID : " + String(mac_adress));
-    currentPAMI = selectCurrentPAMI();
+    currentPAMI = selectCurrentPAMI(team);
     Serial.println("Current PAMI : " + String(currentPAMI));
 
     // Init servo
@@ -105,6 +125,15 @@ void Strategy::execAction(Action action)
             Serial.println("Waiting...");
             delay(action.param1); // Wait for a specified time
             break;
+        case Party:
+            while(true){
+            servo.moveServo(left, 0); // Assuming servo index 0 is for the arm
+            servo.moveServo(right, 0); // Assuming servo index 1 is for the other arm
+            delay(1500);
+            servo.moveServo(left, 90); // Assuming servo index 0 is for the arm
+            servo.moveServo(right, 90); // Assuming servo index 1 is for the other arm
+            delay(1500);
+            }
         default:
             ERROR("wrong action type");
             break;
@@ -122,6 +151,8 @@ void Strategy::game()
 
     fullstop();
 }
+
+
 
 void Strategy::fullstop()
 {

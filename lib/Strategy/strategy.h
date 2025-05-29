@@ -20,14 +20,14 @@ private:
     char team;
     uint64_t mac_adress;
     pamiID currentPAMI;
-    pamiID selectCurrentPAMI();
+    pamiID selectCurrentPAMI(char team);
     Movement movement;
     SERVO servo;
     
 public:
     Strategy();
     void init();
-    int setup();
+    int setup(char team);
     void game();
     void fullstop();
     void execAction(Action action);

@@ -30,3 +30,9 @@ void setupESPNow()
         .team = 'b'
     };
 }
+
+void disableESPNow()
+{
+    esp_now_deinit();           // Désactive ESP-NOW
+    WiFi.mode(WIFI_OFF);        // Coupe le WiFi pour économiser l'énergie
+}

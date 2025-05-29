@@ -1,5 +1,6 @@
 #include "Movement.h"
 
+
 Movement::Movement()
 {
     pinMode(Steppers::EN, OUTPUT);
@@ -15,7 +16,6 @@ Movement::Movement()
 
 void Movement::setParameters(int stepperIndex, int speed, int maxSpeed, int accel)
 {
-    digitalWrite(Steppers::EN, LOW); // Enable the stepper drivers
     stepper[stepperIndex].setSpeed(speed);
     stepper[stepperIndex].setMaxSpeed(maxSpeed);
     stepper[stepperIndex].setAcceleration(accel);
@@ -24,17 +24,32 @@ void Movement::setParameters(int stepperIndex, int speed, int maxSpeed, int acce
 void Movement::moveBy(int index, int target, int speed, int maxSpeed, int accel)
 {
     setParameters(index, speed, maxSpeed, accel);
+    stepper[index].setSpeed(speed);
     stepper[index].setCurrentPosition(0);
     stepper[index].move(target/mmPerStep);
+    Serial.print("TARGET : " + String(target) + " mm, STEPS : " + String(target/mmPerStep) + " STEPPER INDEX : " + String(index) + "\n");
+    Serial.println("SPEED : " + String(speed) + " MAXSPEED : " + String(maxSpeed) + " ACCEL : " + String(accel));
 }
 
 
 void Movement::run()
 {
     digitalWrite(Steppers::EN, LOW); // Enable the stepper drivers
-    do{
+    unsigned long lastObstacleCheck = 0;
+    const unsigned long obstacleCheckInterval = 35; // ms, à ajuster selon besoin
+
+    do {
         stepper[left].run();
         stepper[right].run();
+
+        unsigned long now = millis();
+        if (now - lastObstacleCheck >= obstacleCheckInterval) {
+            lastObstacleCheck = now;
+            while(tof.getDistance(0) < OBSTACLE_DISTANCE && tof.getDistance(1) < OBSTACLE_DISTANCE) {
+                Serial.println("Obstacle detected, stopping movement.");
+                // Optionnel: arrêter les steppers ici si nécessaire
+            }
+        }
     } while (stepper[left].isRunning() || stepper[right].isRunning());
 }
 

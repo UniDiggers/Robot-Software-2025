@@ -1,38 +1,39 @@
 #pragma once
 
+#include <esp_timer.h>
 #include <Arduino.h>
-#include "utils.h"
-
-static const int DEFAULT_CLK = 80;
-static const int DIVIDER[3] = {
-    60 * 1000 * 1000,
-    1000 * 1000,
-    1000
-};
-static int instanceNbr = 0; // TODO: identify timer amount on ESP
 
 enum TimeUnit {
-    minutes,
-    seconds,
-    milliseconds
+    minutes = 60 * 1000 * 1000,
+    seconds = 1000 * 1000,
+    millisec = 1000,
+    microsec = 1
 };
 
-class Timer {
-private:
-    hw_timer_t *timer = NULL;
-    int initialDuration;
-    TimeUnit initialUnit = seconds;
-    bool started = false;
-    int getTime(int type, TimeUnit unit = seconds);
-
+class Timer
+{
 public:
     Timer();
-    Timer(void (*fn)(void), int callbackAt, TimeUnit unit = seconds, bool loopCallback = true, uint16_t clockDivider = DEFAULT_CLK); // Call function after given time unit
-    // TODO: destroyer
-    void start();
-    void stop();
-    void restart();
-    void release();
-    int getElapsedTime(TimeUnit unit = seconds);
-    int getRemainingTime(TimeUnit unit = seconds);
+    Timer(void (*function)(), int duration, TimeUnit unit = seconds, int cbIteration = 1, bool _release = true);
+    ~Timer();
+    esp_err_t setup();
+    esp_err_t start();
+    esp_err_t stop();
+    esp_err_t free();
+
+    int getRemainingTimeBeforeCb();
+    int getRemainingCb();
+
+private:
+    static void callback(void *arg);
+
+    bool enabled = false;
+
+    int timerDuration = 0;
+    esp_timer_handle_t timer = nullptr;
+    void (*fn)(void);
+    int cnt = 0;
+    int max;
+    int startDate;
+    bool release;
 };

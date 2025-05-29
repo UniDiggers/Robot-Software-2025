@@ -16,8 +16,13 @@ private:
     int highTimingBudget = 200000, lowTimingBudget = 20000; // ms
     float mcps = 0.1;
     VL53L0X sensors[sensorCount];
+    TOF();
 
 public:
+    static TOF& getInstance(); // Singleton
+    TOF(const TOF&) = delete;
+    TOF& operator=(const TOF&) = delete;
+
     uint8_t reset();
     bool setup(uint8_t mode);
     uint16_t getDistance(uint8_t sensorIndex);

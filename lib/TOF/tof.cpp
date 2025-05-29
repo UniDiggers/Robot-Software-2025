@@ -2,6 +2,14 @@
 #include "utils.h"
 #include "tof.h"
 
+TOF::TOF() {}
+
+TOF& TOF::getInstance()
+{
+    static TOF instance;
+    return instance;
+}
+
 uint8_t TOF::reset(){
 
     uint8_t check_sensors = 0;

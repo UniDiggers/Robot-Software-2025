@@ -15,14 +15,19 @@ enum ActionType
     Stop,
     Sound,
     Wait,
+    Party,
 };
 
 enum pamiID {
-    rockstar,
-    pami1,
-    pami2,
-    pami3,
-    tempo,
+    rockstar_y,
+    rockstar_b,
+    pami1_y,
+    pami1_b,
+    pami2_y,
+    pami2_b,
+    pami3_y,
+    pami3_b,
+    temp,
 };
 
 class Action
