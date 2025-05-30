@@ -24,6 +24,7 @@ private:
     SERVO servo;
     
 public:
+    volatile bool stopRequested = false;
     Strategy();
     void init();
     int setup(char team);
@@ -33,4 +34,5 @@ public:
     void timer();
     void IRAM_ATTR onTimer();
     int getElapsedTime();
+    void LoopServos();
 };

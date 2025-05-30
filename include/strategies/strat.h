@@ -45,7 +45,7 @@ vector<Action> _pami3_y = { // pami NRV 3
     Action(RotationOnCenterRight, SPEED, 45 /* angle °*/),
     Action(MoveForward, 300 /* distance mm*/, SPEED + 200 /*speed*/, SPEED + 200 /*MAX speed*/, ACCEL + 300/*Accel*/),
     Action(RotationOnCenterLeft, SPEED, 45 /* angle °*/),
-    Action(MoveForward, 1500 /* distance mm*/, SPEED + 200 /*speed*/, SPEED + 200 /*MAX speed*/, ACCEL + 300/*Accel*/),
+    Action(MoveForward, 1500 /* distance mm*/, 2 * SPEED /*speed*/, 2 * SPEED /*MAX speed*/, 1.5 * ACCEL/*Accel*/),
 };
 
 
@@ -85,7 +85,7 @@ vector<Action> _pami3_b = { // pami NRV 3
     Action(RotationOnCenterLeft, SPEED, 45 /* angle °*/),
     Action(MoveForward, 300 /* distance mm*/, SPEED + 200 /*speed*/, SPEED + 200 /*MAX speed*/, ACCEL + 300 /*Accel*/),
     Action(RotationOnCenterRight, SPEED, 45 /* angle °*/),
-    Action(MoveForward, 1500 /* distance mm*/, SPEED + 200 /*speed*/, SPEED + 200 /*MAX speed*/, ACCEL + 300 /*Accel*/),
+    Action(MoveForward, 1500 /* distance mm*/, 2 * SPEED /*speed*/, 2 * SPEED /*MAX speed*/, 1.5 * ACCEL/*Accel*/),
 };
 
 

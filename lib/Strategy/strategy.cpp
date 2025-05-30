@@ -63,7 +63,7 @@ static Strategy* instance = nullptr;
 // Static callback for timer
 static void IRAM_ATTR onTimerStatic() {
     if (instance)
-        instance->fullstop();
+        instance->stopRequested = true; // Juste un flag !
 }
 
 int Strategy::setup(char team){
@@ -86,8 +86,7 @@ void Strategy::timer(){
     Timer1 = timerBegin(0, 80, true);
     timerAttachInterrupt(Timer1, &onTimerStatic, true);
     timerAlarmWrite(Timer1, count * 1000000, false);
-    yield(); // Allow other tasks to run
-    timerAlarmEnable(Timer1); // Don't forget to enable the timer
+    timerAlarmEnable(Timer1); 
 }
 int Strategy::getElapsedTime(){
     // Get the elapsed time since the timer started
@@ -172,6 +171,17 @@ void Strategy::execAction(Action action)
 
 }
 
+void Strategy::LoopServos(){
+    while(true){
+        servo.moveServo(left, 0); 
+        servo.moveServo(right, 0); 
+        delay(1500);
+        servo.moveServo(left, 90); 
+        servo.moveServo(right, 90); 
+        delay(1500);
+    }
+}
+
 void Strategy::game()
 {
     // Launch timer
@@ -182,24 +192,26 @@ void Strategy::game()
     while(elapsedTime < TIME_START){
         elapsedTime = getElapsedTime();
         Serial.println("Waiting for start... Elapsed time: " + String(elapsedTime) + " seconds");
+        if (stopRequested) {
+            if (Timer1) timerEnd(Timer1);
+            fullstop();
+            return;
+        }
     }
 
     if(elapsedTime >= TIME_START){
         for (const auto& action : actions[currentPAMI])
         {
+            if (stopRequested) {
+                if (Timer1) timerEnd(Timer1);
+                fullstop();
+                return;
+            }
             execAction(action);
         }
     }
+    LoopServos(); // Loop servos to keep them active
 
-    fullstop();
-    while(true){
-        servo.moveServo(left, 0); // Assuming servo index 0 is for the arm
-        servo.moveServo(right, 0); // Assuming servo index 1 is for the other arm
-        delay(1500);
-        servo.moveServo(left, 90); // Assuming servo index 0 is for the arm
-        servo.moveServo(right, 90); // Assuming servo index 1 is for the other arm
-        delay(1500);
-    }
 }
 
 
