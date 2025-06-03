@@ -17,7 +17,7 @@ vector<Action> _rockstar_y = { // pami jaune
     Action(RotationOnCenterLeft, SPEED, 90 /* angle °*/),
     Action(MoveForward, 1180 /* distance mm*/, SPEED /*speed*/, SPEED /*MAX speed*/, ACCEL /*Accel*/),
     Action(RotationOnCenterRight, SPEED, 90 /* angle °*/),
-    Action(MoveBackward, -400, 250, 250, 250),
+    Action(MoveBackward, -40, SPEED, SPEED, ACCEL),
     Action(MoveForward, 370 /* distance mm*/, SPEED /*speed*/, SPEED /*MAX speed*/, ACCEL /*Accel*/),
 };
 
@@ -44,8 +44,8 @@ vector<Action> _pami3_y = { // pami NRV 3
     Action(MoveForward, 200 /* distance mm*/, SPEED + 200 /*speed*/, SPEED + 200 /*MAX speed*/, ACCEL + 300 /*Accel*/),
     Action(RotationOnCenterRight, SPEED, 45 /* angle °*/),
     Action(MoveForward, 300 /* distance mm*/, SPEED + 200 /*speed*/, SPEED + 200 /*MAX speed*/, ACCEL + 300/*Accel*/),
-    Action(RotationOnCenterLeft, SPEED, 45 /* angle °*/),
-    Action(MoveForward, 1500 /* distance mm*/, 2 * SPEED /*speed*/, 2 * SPEED /*MAX speed*/, 1.5 * ACCEL/*Accel*/),
+    Action(RotationOnCenterLeft, SPEED, 47 /* angle °*/),
+    Action(MoveForward, 1350 /* distance mm*/, 2 * SPEED /*speed*/, 2 * SPEED /*MAX speed*/, 1.5 * ACCEL/*Accel*/),
 };
 
 
@@ -57,7 +57,7 @@ vector<Action> _rockstar_b = { // pami jaune
     Action(RotationOnCenterRight, SPEED, 90 /* angle °*/),
     Action(MoveForward, 1180 /* distance mm*/, SPEED /*speed*/, SPEED /*MAX speed*/, ACCEL /*Accel*/),
     Action(RotationOnCenterLeft, SPEED, 90 /* angle °*/),
-    Action(MoveBackward, -400, 250, 250, 250),
+    Action(MoveBackward, -40, SPEED, SPEED, ACCEL),
     Action(MoveForward, 370 /* distance mm*/, SPEED /*speed*/, SPEED /*MAX speed*/, ACCEL /*Accel*/),
 };
 
@@ -84,8 +84,8 @@ vector<Action> _pami3_b = { // pami NRV 3
     Action(MoveForward, 200 /* distance mm*/, SPEED + 200 /*speed*/, SPEED + 200 /*MAX speed*/, ACCEL + 300 /*Accel*/),
     Action(RotationOnCenterLeft, SPEED, 45 /* angle °*/),
     Action(MoveForward, 300 /* distance mm*/, SPEED + 200 /*speed*/, SPEED + 200 /*MAX speed*/, ACCEL + 300 /*Accel*/),
-    Action(RotationOnCenterRight, SPEED, 45 /* angle °*/),
-    Action(MoveForward, 1500 /* distance mm*/, 2 * SPEED /*speed*/, 2 * SPEED /*MAX speed*/, 1.5 * ACCEL/*Accel*/),
+    Action(RotationOnCenterRight, SPEED, 47 /* angle °*/),
+    Action(MoveForward, 1350 /* distance mm*/, 2 * SPEED /*speed*/, 2 * SPEED /*MAX speed*/, 1.5 * ACCEL/*Accel*/),
 };
 
 

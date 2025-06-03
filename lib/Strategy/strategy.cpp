@@ -5,8 +5,8 @@
 #include "servo.h"
 #include "screen.h"
 
-#define TIME_START 0
-#define count 15 // Timer count in seconds
+#define TIME_START 85
+#define count 100 // Timer count in seconds
 hw_timer_t *Timer1 = NULL;
 
 Strategy::Strategy() {}

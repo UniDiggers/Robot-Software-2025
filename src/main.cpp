@@ -68,7 +68,7 @@ void setup()
     }
 
 
-    player.Play(true, CRAZY_FROG, 20); // Play specified track
+    player.Play(true, CRAZY_FROG, 30); // Play specified track
     disableESPNow(); 
 }
 
